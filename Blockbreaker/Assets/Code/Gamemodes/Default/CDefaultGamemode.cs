@@ -6,8 +6,27 @@ using UnityEngine;
 public class CDefaultGamemode : MonoBehaviour
 {
     private int round = 0;
+    public int Round
+    {
+        get
+        {
+            return this.round;
+        }
+    }
+
     private static int FIELD_SIZE = 8;
     private bool roundOver, gameOver, roundInProgress;
+    public bool RoundInProgress
+    {
+        get
+        {
+            return this.roundInProgress;
+        }
+        set
+        {
+            this.roundInProgress = value; 
+        }
+    }
 
     private Canvas canvasGameOver;
     private CBlockSpawner bs;
@@ -43,11 +62,13 @@ public class CDefaultGamemode : MonoBehaviour
     {
         MoveArraysInArray();
         MoveObjectsOnScreen();
-        GameObject[] newObjects = bs.SpawnNextRound();
+
+        round++;
+        GameObject[] newObjects = bs.SpawnNextRound(round);
         field[0] = newObjects;
 
         roundOver = false;
-        round++;
+        roundInProgress = false;
     }
 
     private void MoveObjectsOnScreen()

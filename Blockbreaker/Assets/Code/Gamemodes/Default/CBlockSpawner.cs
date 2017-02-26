@@ -11,17 +11,7 @@ public class CBlockSpawner : MonoBehaviour
 
     public GameObject objectToSpawn;
 
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
-
-    public GameObject[] SpawnNextRound()
+    public GameObject[] SpawnNextRound(int round)
     {
         GameObject[] newObjects = new GameObject[7];
         for (int i = 0; i < 7; i++)
@@ -29,6 +19,7 @@ public class CBlockSpawner : MonoBehaviour
             if (UnityEngine.Random.Range(0, 2) == 1)
             {
                 newObjects[i] = Instantiate(objectToSpawn, new Vector2(FIRST_SPAWNPOINT_X + SPACING_TO_NEXT_SPAWNPOINT * i, FIRST_SPAWNPOINT_Y), Quaternion.identity);
+                newObjects[i].GetComponent<CBlock>().Health = round;
             }
         }
 

@@ -5,8 +5,14 @@ using UnityEngine;
 
 public class CBlock : MonoBehaviour
 {
-    private static int MAX_HEALTH = 20;
-    public int health = MAX_HEALTH;
+    private int health = 99999;
+    public int Health
+    {
+        set
+        {
+            this.health = value;
+        }
+    }
 
     private SpriteRenderer sr;
     private CBlockHealthText cbht;
