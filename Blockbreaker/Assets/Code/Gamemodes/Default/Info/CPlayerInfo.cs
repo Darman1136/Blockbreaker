@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CPlayerInfo : MonoBehaviour
 {
-    private int points;
+    private int points = 0;
     public int Points
     {
         get
@@ -18,7 +18,7 @@ public class CPlayerInfo : MonoBehaviour
         }
     }
 
-    private int balls;
+    private int balls = 1;
     public int Balls
     {
         get

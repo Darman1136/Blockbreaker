@@ -7,7 +7,7 @@ public class CTimedSpawner : MonoBehaviour
 {
     private CDefaultGamemode gamemode;
 
-    private static float MAX_DELAY = 0.1f;
+    private static float MAX_DELAY = 0.07f;
     private float currentDelay = MAX_DELAY;
     private int spawnedObjectsCount = 0;
     private Vector2 initialVelocity;
@@ -29,7 +29,7 @@ public class CTimedSpawner : MonoBehaviour
 
     void Update()
     {
-        if (spawnedObjectsCount < gamemode.GameInfo.Round)
+        if (spawnedObjectsCount < gamemode.PlayerInfo.Balls)
         {
             if (timerTick(Time.deltaTime))
             {

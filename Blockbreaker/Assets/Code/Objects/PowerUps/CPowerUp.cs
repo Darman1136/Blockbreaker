@@ -21,9 +21,7 @@ abstract public class CPowerUp : MonoBehaviour {
     }
     // Use this for initialization
     public virtual void Start () {
-        Debug.Log("Start of powerup");
         destroyAtEndOfRound = false;
-
     }
 
 }
