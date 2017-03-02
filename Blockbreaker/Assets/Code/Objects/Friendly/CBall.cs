@@ -15,7 +15,7 @@ public class CBall : MonoBehaviour
         }
     }
     private Vector2 lastFrameVelocity;
-    private static int MIN_Y_VELOCITY = 1;
+    private static float MIN_Y_VELOCITY = 1;
     private float speed = 10;
 
     private bool alreadyEnteredBouncePowerUp;
