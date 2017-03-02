@@ -29,7 +29,7 @@ public class CTimedSpawner : MonoBehaviour
 
     void Update()
     {
-        if (spawnedObjectsCount < gamemode.Round)
+        if (spawnedObjectsCount < gamemode.GameInfo.Round)
         {
             if (timerTick(Time.deltaTime))
             {

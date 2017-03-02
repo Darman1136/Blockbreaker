@@ -18,11 +18,10 @@ public class CBlockSpawner : MonoBehaviour
         {
             if (UnityEngine.Random.Range(0, 2) == 1)
             {
-                newObjects[i] = Instantiate(objectToSpawn, new Vector2(FIRST_SPAWNPOINT_X + SPACING_TO_NEXT_SPAWNPOINT * i, FIRST_SPAWNPOINT_Y), Quaternion.identity);
-                newObjects[i].GetComponent<CBlock>().Health = round;
+                InstantiateObject(newObjects, i, round);
             }
         }
-
+        CheckIfObjectsSpawned(newObjects, round);
         return newObjects;
     }
 
@@ -38,5 +37,26 @@ public class CBlockSpawner : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void CheckIfObjectsSpawned(GameObject[] newObjects, int round)
+    {
+        foreach (GameObject go in newObjects)
+        {
+            if (go != null)
+            {
+                return;
+            }
+        }
+
+        /* Spawn at least one block at a random position with double the health. */
+        int position = UnityEngine.Random.Range(0, 7);
+        InstantiateObject(newObjects, position, round * 2);
+    }
+
+    private void InstantiateObject(GameObject[] newObjects, int arrayPosition, int round)
+    {
+        newObjects[arrayPosition] = Instantiate(objectToSpawn, new Vector2(FIRST_SPAWNPOINT_X + SPACING_TO_NEXT_SPAWNPOINT * arrayPosition, FIRST_SPAWNPOINT_Y), Quaternion.identity);
+        newObjects[arrayPosition].GetComponent<CBlock>().Health = round;
     }
 }

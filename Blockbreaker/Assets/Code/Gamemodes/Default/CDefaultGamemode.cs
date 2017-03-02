@@ -5,15 +5,6 @@ using UnityEngine;
 
 public class CDefaultGamemode : MonoBehaviour
 {
-    private int round = 0;
-    public int Round
-    {
-        get
-        {
-            return this.round;
-        }
-    }
-
     private static int FIELD_SIZE = 8;
     private bool roundOver, gameOver, roundInProgress;
     public bool RoundInProgress
@@ -24,14 +15,29 @@ public class CDefaultGamemode : MonoBehaviour
         }
         set
         {
-            this.roundInProgress = value; 
+            this.roundInProgress = value;
         }
     }
 
+    private GameObject[][] field;
     private Canvas canvasGameOver;
     private CBlockSpawner bs;
-
-    private GameObject[][] field;
+    private CGameInfo gi;
+    public CGameInfo GameInfo
+    {
+        get
+        {
+            return gi;
+        }
+    }
+    private CPlayerInfo pi;
+    public CPlayerInfo PlayerInfo
+    {
+        get
+        {
+            return pi;
+        }
+    }
 
     void Start()
     {
@@ -42,6 +48,9 @@ public class CDefaultGamemode : MonoBehaviour
 
         canvasGameOver = GameObject.Find("CanvasGameOver").GetComponent<Canvas>();
         bs = GetComponent<CBlockSpawner>();
+        GameObject goInformation = GameObject.Find("Information");
+        gi = goInformation.GetComponent<CGameInfo>();
+        pi = goInformation.GetComponent<CPlayerInfo>();
     }
 
     void Update()
@@ -63,8 +72,8 @@ public class CDefaultGamemode : MonoBehaviour
         MoveArraysInArray();
         MoveObjectsOnScreen();
 
-        round++;
-        GameObject[] newObjects = bs.SpawnNextRound(round);
+        gi.Round = ++gi.Round;
+        GameObject[] newObjects = bs.SpawnNextRound(gi.Round);
         field[0] = newObjects;
 
         roundOver = false;
