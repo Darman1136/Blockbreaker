@@ -17,8 +17,16 @@ public class CKillObjectOnCollision : MonoBehaviour
         string tag = coll.gameObject.tag;
         if (tag.Equals("PlayerBall"))
         {
-            Destroy(coll.gameObject);
-            IsRoundOver();
+            CBall ball = coll.gameObject.GetComponent<CBall>();
+            if(ball.Bounce)
+            {
+                ball.Bounce = false;
+            }
+            else
+            {
+                Destroy(coll.gameObject);
+                IsRoundOver();
+            }
         }
     }
 
