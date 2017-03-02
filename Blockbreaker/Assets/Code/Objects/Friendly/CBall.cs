@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,8 @@ public class CBall : MonoBehaviour
             initialVelocity = value;
         }
     }
-
+    private Vector2 lastFrameVelocity;
+    private static int MIN_Y_VELOCITY = 1;
     private float speed = 10;
 
     private bool alreadyEnteredBouncePowerUp;
@@ -38,7 +40,6 @@ public class CBall : MonoBehaviour
         }
     }
 
-    // Use this for initialization
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -54,10 +55,20 @@ public class CBall : MonoBehaviour
         alreadyEnteredBouncePowerUp = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         rb.velocity = rb.velocity.normalized * speed;
+        AvoidYVelocityGettingToLow();
+        lastFrameVelocity = rb.velocity;
+    }
+
+    private void AvoidYVelocityGettingToLow()
+    {
+        float yVelocity = rb.velocity.y;
+        if (yVelocity < MIN_Y_VELOCITY && yVelocity > -MIN_Y_VELOCITY)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, lastFrameVelocity.y);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D coll)
