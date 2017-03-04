@@ -25,16 +25,8 @@ public class CKillObjectOnCollision : MonoBehaviour
             else
             {
                 Destroy(coll.gameObject);
-                IsRoundOver();
+                gamemode.CheckRoundOver();
             }
-        }
-    }
-
-    private void IsRoundOver()
-    {
-        if (GameObject.FindGameObjectsWithTag("PlayerBall").Length - 1 == 0)
-        {
-            gamemode.SetRoundIsOver();
         }
     }
 }

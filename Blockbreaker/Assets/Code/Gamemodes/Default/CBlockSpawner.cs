@@ -11,7 +11,16 @@ public class CBlockSpawner : MonoBehaviour
 
     public GameObject BlockPrefab;
     public GameObject PUBouncePrefab;
+    public GameObject PUExtraBallPrefab;
+    public GameObject PUKillBallPrefab;
     public GameObject PUNewBallPrefab;
+
+    public GameObject[] powerUps;
+
+    void Start()
+    {
+        powerUps = new GameObject[] { PUBouncePrefab, PUExtraBallPrefab, PUKillBallPrefab };
+    }
 
     public GameObject[] SpawnNextRound(int round)
     {
@@ -21,8 +30,20 @@ public class CBlockSpawner : MonoBehaviour
 
         SpawnBlocks(newObjects, round);
 
+        SpawnPowerUps(newObjects);
+
         CheckIfObjectsSpawned(newObjects, round);
         return newObjects;
+    }
+
+    private void SpawnPowerUps(GameObject[] newObjects)
+    {
+        int position = UnityEngine.Random.Range(0, 7);
+        if (CanSpawnAtPosition(newObjects, position))
+        {
+            GameObject powerUpToSpawn = powerUps[UnityEngine.Random.Range(0, powerUps.Length)];
+            InstantiateObject(newObjects, position, powerUpToSpawn);
+        }
     }
 
     private bool CanSpawnAtPosition(GameObject[] newObjects, int arrayPosition)
@@ -79,11 +100,16 @@ public class CBlockSpawner : MonoBehaviour
         }
 
         /* Spawn at least one block at a random position with double the health. */
+        int tries = 100;
         int position;
         do
         {
             position = UnityEngine.Random.Range(0, 7);
-        } while (!CanSpawnAtPosition(newObjects, position));
+        } while (!CanSpawnAtPosition(newObjects, position) && --tries > 0);
+        if(tries <= 0)
+        {
+            Debug.LogError("Error when spawning at least one block. Didn't find a valid position.");
+        }
         SpawnBlock(newObjects, position, BlockPrefab, health * 2);
     }
 

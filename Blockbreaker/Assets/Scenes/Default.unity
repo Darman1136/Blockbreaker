@@ -346,8 +346,13 @@ MonoBehaviour:
     type: 2}
   PUBouncePrefab: {fileID: 1230214094801842, guid: cbd6ed0c87b98884c8340256a31fd1d5,
     type: 2}
+  PUExtraBallPrefab: {fileID: 1740451588735368, guid: 74832e19f91796d4baf1acf8dc40e95d,
+    type: 2}
+  PUKillBallPrefab: {fileID: 1501738966563456, guid: 4139dd0abebc300429ed5d94791a8545,
+    type: 2}
   PUNewBallPrefab: {fileID: 1351339515605206, guid: 27b938fbcb4f0e8428d9f01929743465,
     type: 2}
+  powerUps: []
 --- !u!4 &264790992
 Transform:
   m_ObjectHideFlags: 0
@@ -1119,7 +1124,7 @@ Camera:
   m_GameObject: {fileID: 1708944582}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2

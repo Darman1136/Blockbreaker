@@ -57,6 +57,7 @@ public class CDefaultGamemode : MonoBehaviour
     {
         if (IsRoundOver())
         {
+            RemoveAllUsedPowerUps();
             UpdateForNextRound();
             if (IsGameOver())
             {
@@ -118,9 +119,22 @@ public class CDefaultGamemode : MonoBehaviour
 
     private bool IsGameOver()
     {
-        if (field[FIELD_SIZE - 1] != null)
+        if (field[field.Length - 1] != null)
         {
-            gameOver = true;
+            foreach (GameObject go in field[field.Length - 1])
+            {
+                if (go != null)
+                {
+                    if (go.tag.Equals("Box"))
+                    {
+                        gameOver = true;
+                    }
+                    else if (go.tag.Equals("PowerUp"))
+                    {
+                        go.GetComponent<CPowerUp>().DestoryAtEndOfRound = true;
+                    }
+                }
+            }
         }
         return gameOver;
     }
@@ -135,8 +149,36 @@ public class CDefaultGamemode : MonoBehaviour
         return roundOver;
     }
 
-    public void SetRoundIsOver()
+    public void CheckRoundOver()
     {
-        roundOver = true;
+        if (GameObject.FindGameObjectsWithTag("PlayerBall").Length - 1 == 0)
+        {
+            roundOver = true;
+        }
+    }
+
+    private void RemoveAllUsedPowerUps()
+    {
+        foreach (GameObject[] gos in field)
+        {
+            if (gos != null)
+            {
+                for (int index = 0; index < gos.Length; index++)
+                {
+                    GameObject go = gos[index];
+                    if (go != null)
+                    {
+                        if (go.tag.Equals("PowerUp"))
+                        {
+                            if (go.GetComponent<CPowerUp>().DestoryAtEndOfRound)
+                            {
+                                gos[index] = null;
+                                Destroy(go);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

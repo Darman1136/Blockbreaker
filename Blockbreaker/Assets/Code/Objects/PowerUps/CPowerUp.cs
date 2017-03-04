@@ -23,5 +23,4 @@ abstract public class CPowerUp : MonoBehaviour {
     public virtual void Start () {
         destroyAtEndOfRound = false;
     }
-
 }

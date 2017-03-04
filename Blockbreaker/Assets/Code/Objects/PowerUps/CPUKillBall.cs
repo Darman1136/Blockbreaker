@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CPUBounce : CPowerUp
+public class CPUKillBall : CPowerUp
 {
+    private CDefaultGamemode gamemode;
 
     public override void Start()
     {
         base.Start();
+        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -16,11 +17,9 @@ public class CPUBounce : CPowerUp
         string tag = collision.gameObject.tag;
         if (tag.Equals("PlayerBall"))
         {
-            CBall ball = collision.gameObject.GetComponent<CBall>();
-            ball.Bounce = true;
-            ball.GetComponent<SpriteRenderer>().color = Color.cyan;
             DestoryAtEndOfRound = true;
+            Destroy(collision.gameObject);
+            gamemode.CheckRoundOver();
         }
     }
-
 }
