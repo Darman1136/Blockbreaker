@@ -17,7 +17,21 @@ public class CGameInfo : MonoBehaviour
         }
     }
 
-    private Vector2 spawnPoint = new Vector2(0f, 0.35f);
+    private bool ballKilledByBorderThisRound;
+    public bool BallKilledByBorderThisRound
+    {
+        set
+        {
+            ballKilledByBorderThisRound = value;
+        }
+        get
+        {
+            return ballKilledByBorderThisRound;
+        }
+    }
+
+    public static float SPAWN_POINT_Y = 0.35f;
+    private Vector2 spawnPoint = new Vector2(0f, SPAWN_POINT_Y);
     public Vector2 SpawnPoint
     {
         set

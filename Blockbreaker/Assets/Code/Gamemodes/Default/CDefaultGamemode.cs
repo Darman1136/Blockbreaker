@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CDefaultGamemode : MonoBehaviour
 {
-    private static int FIELD_SIZE = 10;
     private bool roundOver, gameOver, roundInProgress;
     public bool RoundInProgress
     {
@@ -44,13 +43,14 @@ public class CDefaultGamemode : MonoBehaviour
         roundOver = true;
         roundInProgress = true;
         gameOver = false;
-        field = new GameObject[FIELD_SIZE][];
 
         canvasGameOver = GameObject.Find("CanvasGameOver").GetComponent<Canvas>();
         bs = GetComponent<CBlockSpawner>();
         GameObject goInformation = GameObject.Find("Information");
         gi = goInformation.GetComponent<CGameInfo>();
         pi = goInformation.GetComponent<CPlayerInfo>();
+
+        field = new GameObject[gi.FieldHeight][];
     }
 
     void Update()
@@ -149,12 +149,32 @@ public class CDefaultGamemode : MonoBehaviour
         return roundOver;
     }
 
-    public void CheckRoundOver()
+    public void CheckRoundOver(CBall ball, bool killedByBorder)
     {
+        if (killedByBorder && IsFirstBallToBeKilledByBorder())
+        {
+            GameInfo.SpawnPoint = new Vector2(ball.transform.position.x, CGameInfo.SPAWN_POINT_Y);
+        }
         if (GameObject.FindGameObjectsWithTag("PlayerBall").Length - 1 == 0)
         {
             roundOver = true;
+            ResetFirstBallToBeKilledByBorder();
         }
+    }
+
+    private void ResetFirstBallToBeKilledByBorder()
+    {
+        GameInfo.BallKilledByBorderThisRound = false;
+    }
+
+    private bool IsFirstBallToBeKilledByBorder()
+    {
+        if(GameInfo.BallKilledByBorderThisRound)
+        {
+            return false;
+        }
+        GameInfo.BallKilledByBorderThisRound = true;
+        return true;
     }
 
     private void RemoveAllUsedPowerUps()

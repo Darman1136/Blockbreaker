@@ -35,7 +35,7 @@ public class CPUExtraBall : CPowerUp
             GameObject spawnedObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
             CBall duplicate = spawnedObject.GetComponent<CBall>();
             duplicate.Duplicate = true;
-            duplicate.GetComponent<SpriteRenderer>().color = Color.gray;
+            duplicate.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0f, 0.8f, 1f); ;
             duplicate.InitialVelocity = duplicate.AngleVelocityByDegree(-angle * 2, newVelocity);
         }
     }

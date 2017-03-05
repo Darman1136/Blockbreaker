@@ -54,8 +54,9 @@ public class CBall : MonoBehaviour
     }
 
     private static float SPEED = 10f;
-    private static float MIN_SPEED = 0.4f;
-    private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.45f;
+    private static float MIN_SPEED = 0.3f;
+    private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.35f;
+    private static float UNSTUCK_BOOST = 7f;
 
     void Start()
     {
@@ -114,12 +115,12 @@ public class CBall : MonoBehaviour
 
     public void UnstuckMe()
     {
-        rb.velocity = new Vector2(rb.velocity.x, 7f);
+        rb.velocity = new Vector2(rb.velocity.x, UNSTUCK_BOOST);
     }
 
-    public void KillBall()
+    public void KillBall(bool killedByBorder)
     {
+        gamemode.CheckRoundOver(this, killedByBorder);
         Destroy(this.gameObject);
-        gamemode.CheckRoundOver();
     }
 }

@@ -17,7 +17,7 @@ public class CPUKillBall : CPowerUp
         {
             DestoryAtEndOfRound = true;
             CBall ball = coll.gameObject.GetComponent<CBall>();
-            ball.KillBall();
+            ball.KillBall(false);
         }
     }
 }

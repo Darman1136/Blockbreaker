@@ -17,7 +17,7 @@ public class CKillObjectOnCollision : MonoBehaviour
             }
             else
             {
-                ball.KillBall();
+                ball.KillBall(true);
             }
         }
     }

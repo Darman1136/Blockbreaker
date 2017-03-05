@@ -118,7 +118,7 @@ public class CAimLine : MonoBehaviour
         Vector3 vec3pos = CalculateIntersection(vec1pos, vec1dir, RIGHT_BORDER_POSITION, vec2dir);
         vec3pos.z = -0.001f;
 
-        if (vec3pos.y < 6.1 && vec3pos.y > 0f)
+        if (vec3pos.y < 6.1 && vec3pos.y > CGameInfo.SPAWN_POINT_Y)
         {
             float reflection = Vector3.Angle(vec1dir, Vector3.left) * 2;
             Vector3 vec3dir = Quaternion.Euler(0, 0, reflection) * vec1dir;
@@ -136,7 +136,7 @@ public class CAimLine : MonoBehaviour
         Vector3 vec3pos = CalculateIntersection(vec1pos, vec1dir, LEFT_BORDER_POSITION, vec2dir);
         vec3pos.z = -0.001f;
 
-        if (vec3pos.y < 6.1 && vec3pos.y > 0f)
+        if (vec3pos.y < 6.1 && vec3pos.y > CGameInfo.SPAWN_POINT_Y)
         {
             float reflection = Vector3.Angle(vec1dir, Vector3.right) * -2;
             Vector3 vec3dir = Quaternion.Euler(0, 0, reflection) * vec1dir;
