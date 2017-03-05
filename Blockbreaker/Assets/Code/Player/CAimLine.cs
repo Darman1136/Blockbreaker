@@ -1,18 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
 public class CAimLine : MonoBehaviour
 {
+    enum Direction
+    {
+        LEFT,
+        RIGHT,
+        TOP,
+        BOTTOM
+    };
+
     private LineRenderer lr;
     /** Only valid points which should be drawn will be stored here. */
-    private Vector3[] aimPosition;
+    private Vector3[] drawnAimPosition;
     public Vector3[] AimPosition
     {
         get
         {
-            return aimPosition;
+            return drawnAimPosition;
         }
     }
     /** All values, even if invalid will be stored here. */
@@ -23,6 +32,11 @@ public class CAimLine : MonoBehaviour
     private static float MAX_Y_MOUSE_POSITION;
     private static float MIN_X_MOUSE_POSITION;
     private static float MAX_X_MOUSE_POSITION;
+
+    private static Vector3 RIGHT_BORDER_POSITION = new Vector3(2.6f, 0, 0);
+    private static Vector3 LEFT_BORDER_POSITION = new Vector3(-2.6f, 0, 0);
+    private static Vector3 TOP_BORDER_POSITION = new Vector3(0, 6.1f, 0);
+    private static Vector3 BOTTOM_BORDER_POSITION = new Vector3(0, 0, 0);
 
     void Start()
     {
@@ -45,12 +59,139 @@ public class CAimLine : MonoBehaviour
         mousePosition.z = 8.3f;
         Vector3 endPointPosition = Camera.main.ScreenToWorldPoint(mousePosition);
         endPointPosition.z = -0.001f;
-        actualAimPosition = new Vector3[] { START_POINT, endPointPosition };
+
+
+        Vector3[] lines = FindReflectionLine(endPointPosition);
+        int numPoints = 2;
+        if (lines != null)
+        {
+            actualAimPosition = lines;
+            numPoints = 4;
+        }
+        else
+        {
+            actualAimPosition = new Vector3[] { START_POINT, endPointPosition };
+        }
+
+
         if (IsValidMousePosition(mousePosition))
         {
-            aimPosition = actualAimPosition;
-            lr.SetPositions(aimPosition);
+            drawnAimPosition = actualAimPosition;
+            lr.SetPositions(drawnAimPosition);
+            lr.numPositions = numPoints;
         }
+    }
+
+    private Vector3[] FindReflectionLine(Vector3 endPointPosition)
+    {
+        Vector3[] calculatedReflectionLine = CalculateRightIntersection(START_POINT, endPointPosition - START_POINT, endPointPosition, Vector3.up);
+        if (calculatedReflectionLine != null)
+        {
+            return calculatedReflectionLine;
+        }
+        calculatedReflectionLine = CalculateLeftIntersection(START_POINT, endPointPosition - START_POINT, endPointPosition, Vector3.up);
+        if (calculatedReflectionLine != null)
+        {
+            return calculatedReflectionLine;
+        }
+        calculatedReflectionLine = CalculateTopIntersection(START_POINT, endPointPosition - START_POINT, endPointPosition, Vector3.left);
+        if (calculatedReflectionLine != null)
+        {
+            return calculatedReflectionLine;
+        }
+        return null;
+    }
+
+    private Vector3[] CalculateRightIntersection(Vector3 vec1pos, Vector3 vec1dir, Vector3 vec2pos, Vector3 vec2dir)
+    {
+        Vector3 vec3pos = CalculateIntersection(vec1pos, vec1dir, RIGHT_BORDER_POSITION, vec2dir);
+        vec3pos.z = -0.001f;
+
+        if (vec3pos.y < 6.1 && vec3pos.y > 0f)
+        {
+            float reflection = Vector3.Angle(vec1dir, Vector3.left) * 2;
+            Vector3 vec3dir = Quaternion.Euler(0, 0, reflection) * vec1dir;
+
+            Vector3 vec4pos = CalculateIntersection(vec3pos, vec3dir, LEFT_BORDER_POSITION, vec2dir);
+            vec4pos.z = -0.001f;
+            vec4pos = ClampLastLinePoint(vec4pos, Direction.LEFT);
+            return new Vector3[] { vec1pos, vec2pos, vec3pos, vec4pos };
+        }
+        return null;
+    }
+
+    private Vector3[] CalculateLeftIntersection(Vector3 vec1pos, Vector3 vec1dir, Vector3 vec2pos, Vector3 vec2dir)
+    {
+        Vector3 vec3pos = CalculateIntersection(vec1pos, vec1dir, LEFT_BORDER_POSITION, vec2dir);
+        vec3pos.z = -0.001f;
+
+        if (vec3pos.y < 6.1 && vec3pos.y > 0f)
+        {
+            float reflection = Vector3.Angle(vec1dir, Vector3.right) * -2;
+            Vector3 vec3dir = Quaternion.Euler(0, 0, reflection) * vec1dir;
+
+            Vector3 vec4pos = CalculateIntersection(vec3pos, vec3dir, RIGHT_BORDER_POSITION, vec2dir);
+            vec4pos.z = -0.001f;
+            vec4pos = ClampLastLinePoint(vec4pos, Direction.RIGHT);
+            return new Vector3[] { vec1pos, vec2pos, vec3pos, vec4pos };
+        }
+        return null;
+    }
+
+    private Vector3[] CalculateTopIntersection(Vector3 vec1pos, Vector3 vec1dir, Vector3 vec2pos, Vector3 vec2dir)
+    {
+        Vector3 vec3pos = CalculateIntersection(vec1pos, vec1dir, TOP_BORDER_POSITION, vec2dir);
+        vec3pos.z = -0.001f;
+
+        if (vec3pos.x < 2.75 && vec3pos.x > -2.75f)
+        {
+            float angleMultiply = -1 * Mathf.Sign(vec3pos.x);
+            float reflection = Vector3.Angle(vec1dir, Vector3.down) * 2 * angleMultiply;
+            Vector3 vec3dir = Quaternion.Euler(0, 0, reflection) * vec1dir;
+
+            Vector3 vec4pos = CalculateIntersection(vec3pos, vec3dir, BOTTOM_BORDER_POSITION, vec2dir);
+            vec4pos.z = -0.001f;
+            vec4pos = ClampLastLinePoint(vec4pos, Direction.BOTTOM);
+            return new Vector3[] { vec1pos, vec2pos, vec3pos, vec4pos };
+        }
+        return null;
+    }
+
+    private Vector3 CalculateIntersection(Vector3 vec1pos, Vector3 vec1dir, Vector3 vec2pos, Vector3 vec2dir)
+    {
+        Vector3 vec3dir = vec2pos - vec1pos;
+        Vector3 crossVec1and2 = Vector3.Cross(vec1dir, vec2dir);
+        Vector3 crossVec3and2 = Vector3.Cross(vec3dir, vec2dir);
+
+        float s = Vector3.Dot(crossVec3and2, crossVec1and2) / crossVec1and2.sqrMagnitude;
+
+        return vec1pos + (vec1dir * s);
+    }
+
+    private Vector3 ClampLastLinePoint(Vector3 vec4pos, Direction lastPointSide)
+    {
+        switch (lastPointSide)
+        {
+            case Direction.LEFT:
+                if (vec4pos.x < -2.75f)
+                {
+                    vec4pos.x = -2.75f;
+                }
+                break;
+            case Direction.RIGHT:
+                if (vec4pos.x > 2.75f)
+                {
+                    vec4pos.x = 2.75f;
+                }
+                break;
+            case Direction.BOTTOM:
+                if (vec4pos.y < 0f)
+                {
+                    vec4pos.y = 0f;
+                }
+                break;
+        }
+        return vec4pos;
     }
 
     private bool IsValidMousePosition(Vector3 mousePosition)
