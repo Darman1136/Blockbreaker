@@ -6,6 +6,8 @@ using UnityEngine;
 public class CBall : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private CBallStuckWatchdog watchdog;
+
     private Vector2 initialVelocity;
     public Vector2 InitialVelocity
     {
@@ -58,10 +60,8 @@ public class CBall : MonoBehaviour
         {
             rb.velocity = initialVelocity;
         }
-        else
-        {
-            Debug.LogError("No Rigidbody2D found.");
-        }
+        watchdog = GameObject.Find("Gamemode").GetComponent<CBallStuckWatchdog>();
+
         bounce = false;
         alreadyEnteredBouncePowerUp = false;
     }
@@ -69,13 +69,22 @@ public class CBall : MonoBehaviour
     void Update()
     {
         rb.velocity = rb.velocity.normalized * speed;
+        if (rb.velocity.y < 0.4f)
+        {
+            watchdog.AddPossibleStuckBall(this);
+        }
+        else
+        {
+            watchdog.RemovePossibleStuckBall(this);
+        }
     }
 
-        void OnCollisionEnter2D(Collision2D coll)
+    void OnCollisionEnter2D(Collision2D coll)
     {
         string tag = coll.gameObject.tag;
         if (tag.Equals("Box"))
         {
+            watchdog.RemovePossibleStuckBall(this);
             coll.gameObject.SendMessage("Hit", 1);
         }
     }
@@ -90,5 +99,10 @@ public class CBall : MonoBehaviour
     public Vector2 AngleVelocityByDegree(float degree, Vector2 velocityToChange)
     {
         return Quaternion.Euler(0, 0, degree) * velocityToChange;
+    }
+
+    public void UnstuckMe()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 7f);
     }
 }

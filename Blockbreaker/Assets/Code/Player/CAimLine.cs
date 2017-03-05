@@ -38,6 +38,8 @@ public class CAimLine : MonoBehaviour
     private static Vector3 TOP_BORDER_POSITION = new Vector3(0, 6.1f, 0);
     private static Vector3 BOTTOM_BORDER_POSITION = new Vector3(0, 0, 0);
 
+    private static float MAX_AIM_ANGLE = 77f;
+
     void Start()
     {
         GetComponent<Renderer>().sortingLayerName = "AimLine";
@@ -197,6 +199,6 @@ public class CAimLine : MonoBehaviour
     private bool IsValidMousePosition(Vector3 mousePosition)
     {
         Vector3 aimDirection = actualAimPosition[1] - actualAimPosition[0];
-        return Vector3.Angle(aimDirection, Vector3.up) < 80f && (mousePosition.y > MIN_Y_MOUSE_POSITION && mousePosition.y < MAX_Y_MOUSE_POSITION && mousePosition.x > MIN_X_MOUSE_POSITION && mousePosition.x < MAX_X_MOUSE_POSITION);
+        return Vector3.Angle(aimDirection, Vector3.up) < MAX_AIM_ANGLE && (mousePosition.y > MIN_Y_MOUSE_POSITION && mousePosition.y < MAX_Y_MOUSE_POSITION && mousePosition.x > MIN_X_MOUSE_POSITION && mousePosition.x < MAX_X_MOUSE_POSITION);
     }
 }
