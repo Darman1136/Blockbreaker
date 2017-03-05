@@ -91,7 +91,7 @@ public class CDefaultGamemode : MonoBehaviour
 
     private void MoveArraysInArray()
     {
-        for (int index = FIELD_SIZE - 2; index >= 0; index--)
+        for (int index = gi.FieldHeight - 2; index >= 0; index--)
         {
             if (!IsArrayEmpty(field[index]))
             {
