@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CDefaultGamemode : MonoBehaviour
 {
-    private static int FIELD_SIZE = 8;
+    private static int FIELD_SIZE = 10;
     private bool roundOver, gameOver, roundInProgress;
     public bool RoundInProgress
     {
@@ -170,10 +170,11 @@ public class CDefaultGamemode : MonoBehaviour
                     {
                         if (go.tag.Equals("PowerUp"))
                         {
-                            if (go.GetComponent<CPowerUp>().DestoryAtEndOfRound)
+                            CPowerUp up=  go.GetComponent<CPowerUp>();
+                            if (up.DestoryAtEndOfRound)
                             {
                                 gos[index] = null;
-                                Destroy(go);
+                                up.KillPowerUp();
                             }
                         }
                     }

@@ -8,6 +8,7 @@ public class CTimedSpawner : MonoBehaviour
     private CDefaultGamemode gamemode;
 
     private static float MAX_DELAY = 0.07f;
+
     private float currentDelay = MAX_DELAY;
     private int spawnedObjectsCount = 0;
     private Vector2 initialVelocity;
@@ -47,7 +48,7 @@ public class CTimedSpawner : MonoBehaviour
     {
         if (objectToSpawn != null)
         {
-            GameObject spawnedObject = Instantiate(objectToSpawn, new Vector2(0f, 0.35f), Quaternion.identity);
+            GameObject spawnedObject = Instantiate(objectToSpawn, gamemode.GameInfo.SpawnPoint, Quaternion.identity);
             spawnedObject.GetComponent<CBall>().InitialVelocity = initialVelocity;
             spawnedObjectsCount++;
         }

@@ -19,8 +19,6 @@ public class CPUNewBall : CPowerUp
         if (tag.Equals("PlayerBall"))
         {
             pi.Balls = ++pi.Balls;
-            // used here to remove it from the field array kept inside the gamemode 
-            DestoryAtEndOfRound = true;
             Destroy(this.gameObject);
         }
     }

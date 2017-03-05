@@ -9,17 +9,15 @@ public class CPUKillBall : CPowerUp
     public override void Start()
     {
         base.Start();
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D coll)
     {
-        string tag = collision.gameObject.tag;
-        if (tag.Equals("PlayerBall"))
+        if (coll.gameObject.tag.Equals("PlayerBall"))
         {
             DestoryAtEndOfRound = true;
-            Destroy(collision.gameObject);
-            gamemode.CheckRoundOver();
+            CBall ball = coll.gameObject.GetComponent<CBall>();
+            ball.KillBall();
         }
     }
 }

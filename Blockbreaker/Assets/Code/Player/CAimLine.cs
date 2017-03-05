@@ -14,7 +14,9 @@ public class CAimLine : MonoBehaviour
         BOTTOM
     };
 
+    private CDefaultGamemode gamemode;
     private LineRenderer lr;
+
     /** Only valid points which should be drawn will be stored here. */
     private Vector3[] drawnAimPosition;
     public Vector3[] AimPosition
@@ -27,7 +29,6 @@ public class CAimLine : MonoBehaviour
     /** All values, even if invalid will be stored here. */
     private Vector3[] actualAimPosition;
 
-    private static Vector3 START_POINT = new Vector3(0f, 0.35f, -0.001f);
     private static float MIN_Y_MOUSE_POSITION;
     private static float MAX_Y_MOUSE_POSITION;
     private static float MIN_X_MOUSE_POSITION;
@@ -44,6 +45,7 @@ public class CAimLine : MonoBehaviour
     {
         GetComponent<Renderer>().sortingLayerName = "AimLine";
         lr = GetComponent<LineRenderer>();
+        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
 
         Transform border = GameObject.Find("TopBorder").GetComponent<Transform>();
         MAX_Y_MOUSE_POSITION = Camera.main.WorldToScreenPoint(border.position).y;
@@ -57,46 +59,53 @@ public class CAimLine : MonoBehaviour
 
     void Update()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = 8.3f;
-        Vector3 endPointPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        endPointPosition.z = -0.001f;
-
-
-        Vector3[] lines = FindReflectionLine(endPointPosition);
-        int numPoints = 2;
-        if (lines != null)
+        if (!gamemode.RoundInProgress)
         {
-            actualAimPosition = lines;
-            numPoints = 4;
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = 8.3f;
+            Vector3 endPointPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            endPointPosition.z = -0.001f;
+
+
+            Vector3[] lines = FindReflectionLine(endPointPosition);
+            int numPoints = 2;
+            if (lines != null)
+            {
+                actualAimPosition = lines;
+                numPoints = 4;
+            }
+            else
+            {
+                actualAimPosition = new Vector3[] { GetLineStartPoint(), endPointPosition };
+            }
+
+
+            if (IsValidMousePosition(mousePosition))
+            {
+                drawnAimPosition = actualAimPosition;
+                lr.SetPositions(drawnAimPosition);
+                lr.numPositions = numPoints;
+            }
         }
         else
         {
-            actualAimPosition = new Vector3[] { START_POINT, endPointPosition };
-        }
-
-
-        if (IsValidMousePosition(mousePosition))
-        {
-            drawnAimPosition = actualAimPosition;
-            lr.SetPositions(drawnAimPosition);
-            lr.numPositions = numPoints;
+            lr.numPositions = 0;
         }
     }
 
     private Vector3[] FindReflectionLine(Vector3 endPointPosition)
     {
-        Vector3[] calculatedReflectionLine = CalculateRightIntersection(START_POINT, endPointPosition - START_POINT, endPointPosition, Vector3.up);
+        Vector3[] calculatedReflectionLine = CalculateRightIntersection(GetLineStartPoint(), endPointPosition - GetLineStartPoint(), endPointPosition, Vector3.up);
         if (calculatedReflectionLine != null)
         {
             return calculatedReflectionLine;
         }
-        calculatedReflectionLine = CalculateLeftIntersection(START_POINT, endPointPosition - START_POINT, endPointPosition, Vector3.up);
+        calculatedReflectionLine = CalculateLeftIntersection(GetLineStartPoint(), endPointPosition - GetLineStartPoint(), endPointPosition, Vector3.up);
         if (calculatedReflectionLine != null)
         {
             return calculatedReflectionLine;
         }
-        calculatedReflectionLine = CalculateTopIntersection(START_POINT, endPointPosition - START_POINT, endPointPosition, Vector3.left);
+        calculatedReflectionLine = CalculateTopIntersection(GetLineStartPoint(), endPointPosition - GetLineStartPoint(), endPointPosition, Vector3.left);
         if (calculatedReflectionLine != null)
         {
             return calculatedReflectionLine;
@@ -200,5 +209,11 @@ public class CAimLine : MonoBehaviour
     {
         Vector3 aimDirection = actualAimPosition[1] - actualAimPosition[0];
         return Vector3.Angle(aimDirection, Vector3.up) < MAX_AIM_ANGLE && (mousePosition.y > MIN_Y_MOUSE_POSITION && mousePosition.y < MAX_Y_MOUSE_POSITION && mousePosition.x > MIN_X_MOUSE_POSITION && mousePosition.x < MAX_X_MOUSE_POSITION);
+    }
+
+    private Vector3 GetLineStartPoint()
+    {
+        Vector2 spawnPoint = gamemode.GameInfo.SpawnPoint;
+        return new Vector3(spawnPoint.x, spawnPoint.y, -0.001f);
     }
 }

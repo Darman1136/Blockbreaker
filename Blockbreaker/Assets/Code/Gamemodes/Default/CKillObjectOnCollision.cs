@@ -5,13 +5,6 @@ using UnityEngine;
 
 public class CKillObjectOnCollision : MonoBehaviour
 {
-    private CDefaultGamemode gamemode;
-
-    void Start()
-    {
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
-    }
-
     void OnCollisionEnter2D(Collision2D coll)
     {
         string tag = coll.gameObject.tag;
@@ -24,8 +17,7 @@ public class CKillObjectOnCollision : MonoBehaviour
             }
             else
             {
-                Destroy(coll.gameObject);
-                gamemode.CheckRoundOver();
+                ball.KillBall();
             }
         }
     }

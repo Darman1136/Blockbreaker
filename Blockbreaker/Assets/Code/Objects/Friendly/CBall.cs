@@ -7,6 +7,7 @@ public class CBall : MonoBehaviour
 {
     private Rigidbody2D rb;
     private CBallStuckWatchdog watchdog;
+    private CDefaultGamemode gamemode;
 
     private Vector2 initialVelocity;
     public Vector2 InitialVelocity
@@ -16,7 +17,6 @@ public class CBall : MonoBehaviour
             initialVelocity = value;
         }
     }
-    private float speed = 10;
 
     private bool alreadyEnteredBouncePowerUp;
     private bool bounce;
@@ -53,6 +53,10 @@ public class CBall : MonoBehaviour
         }
     }
 
+    private static float SPEED = 10f;
+    private static float MIN_SPEED = 0.4f;
+    private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.45f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -61,6 +65,7 @@ public class CBall : MonoBehaviour
             rb.velocity = initialVelocity;
         }
         watchdog = GameObject.Find("Gamemode").GetComponent<CBallStuckWatchdog>();
+        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
 
         bounce = false;
         alreadyEnteredBouncePowerUp = false;
@@ -68,14 +73,20 @@ public class CBall : MonoBehaviour
 
     void Update()
     {
-        rb.velocity = rb.velocity.normalized * speed;
-        if (rb.velocity.y < 0.4f)
+        rb.velocity = rb.velocity.normalized * SPEED;
+        if (rb.velocity.y < MIN_SPEED_BEFORE_CONSIDERED_STUCK)
         {
             watchdog.AddPossibleStuckBall(this);
         }
         else
         {
             watchdog.RemovePossibleStuckBall(this);
+        }
+        if (rb.velocity.y < MIN_SPEED && rb.velocity.y > -MIN_SPEED)
+        {
+            float signXVel = Mathf.Sign(rb.velocity.x);
+            float signYVel = Mathf.Sign(rb.velocity.y);
+            rb.velocity = new Vector2(signXVel * SPEED - MIN_SPEED, signYVel * MIN_SPEED);
         }
     }
 
@@ -104,5 +115,11 @@ public class CBall : MonoBehaviour
     public void UnstuckMe()
     {
         rb.velocity = new Vector2(rb.velocity.x, 7f);
+    }
+
+    public void KillBall()
+    {
+        Destroy(this.gameObject);
+        gamemode.CheckRoundOver();
     }
 }
