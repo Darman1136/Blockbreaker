@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CTimedSpawner : MonoBehaviour
-{
+public class CTimedSpawner : MonoBehaviour {
     private CDefaultGamemode gamemode;
 
     private static float MAX_DELAY = 0.07f;
@@ -13,62 +12,49 @@ public class CTimedSpawner : MonoBehaviour
     private float currentDelay = MAX_DELAY;
     private int spawnedObjectsCount = 0;
     private Vector2 initialVelocity;
-    public Vector2 InitialVelocity
-    {
-        set
-        {
+    public Vector2 InitialVelocity {
+        set {
             this.initialVelocity = value;
         }
     }
 
     public GameObject objectToSpawn;
 
-    void Start()
-    {
+    void Start() {
         gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
         spawnPoint = gamemode.GameInfo.SpawnPoint;
         SpawnBall();
     }
 
-    void Update()
-    {
-        if (spawnedObjectsCount < gamemode.PlayerInfo.Balls)
-        {
-            if (timerTick(Time.deltaTime))
-            {
+    void Update() {
+        if (spawnedObjectsCount < gamemode.PlayerInfo.Balls) {
+            if (timerTick(Time.deltaTime)) {
                 SpawnBall();
             }
-        }
-        else
-        {
+        } else {
             Destroy(this.gameObject);
         }
     }
 
 
-    private void SpawnBall()
-    {
-        if (objectToSpawn != null)
-        {
+    private void SpawnBall() {
+        if (objectToSpawn != null) {
             GameObject spawnedObject = Instantiate(objectToSpawn, spawnPoint, Quaternion.identity);
             spawnedObject.GetComponent<CBall>().InitialVelocity = initialVelocity;
             spawnedObjectsCount++;
         }
     }
 
-    private bool timerTick(float passedMs)
-    {
+    private bool timerTick(float passedMs) {
         currentDelay -= passedMs;
-        if (currentDelay <= 0)
-        {
+        if (currentDelay <= 0) {
             resetTimer();
             return true;
         }
         return false;
     }
 
-    private void resetTimer()
-    {
+    private void resetTimer() {
         currentDelay = MAX_DELAY + currentDelay;
 
     }

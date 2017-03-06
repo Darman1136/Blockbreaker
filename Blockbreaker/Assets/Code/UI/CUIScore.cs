@@ -6,10 +6,8 @@ using UnityEngine.UI;
 public class CUIScore : MonoBehaviour {
     public Text text;
 
-    public void UpdateScoreText(int score)
-    {
-        if(text != null)
-        {
+    public void UpdateScoreText(int score) {
+        if (text != null) {
             text.text = score.ToString();
         }
     }

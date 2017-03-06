@@ -3,20 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CKillObjectOnCollision : MonoBehaviour
-{
-    void OnCollisionEnter2D(Collision2D coll)
-    {
+public class CKillObjectOnCollision : MonoBehaviour {
+    void OnCollisionEnter2D(Collision2D coll) {
         string tag = coll.gameObject.tag;
-        if (tag.Equals("PlayerBall"))
-        {
+        if (tag.Equals("PlayerBall")) {
             CBall ball = coll.gameObject.GetComponent<CBall>();
-            if(ball.Bounce)
-            {
+            if (ball.Bounce) {
                 ball.Bounce = false;
-            }
-            else
-            {
+            } else {
                 ball.KillBall(true);
             }
         }

@@ -2,32 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CPlayerInfo : MonoBehaviour
-{
+public class CPlayerInfo : MonoBehaviour {
     private int points = 0;
-    public int Points
-    {
-        get
-        {
+    public int Points {
+        get {
             return points;
         }
 
-        set
-        {
+        set {
             points = value;
         }
     }
 
     private int balls = 1;
-    public int Balls
-    {
-        get
-        {
+    public int Balls {
+        get {
             return balls;
         }
 
-        set
-        {
+        set {
             balls = value;
         }
     }

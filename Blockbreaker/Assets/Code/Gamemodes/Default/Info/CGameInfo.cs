@@ -2,69 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CGameInfo : MonoBehaviour
-{
+public class CGameInfo : MonoBehaviour {
     private int round;
-    public int Round
-    {
-        set
-        {
+    public int Round {
+        set {
             round = value;
         }
-        get
-        {
+        get {
             return round;
         }
     }
 
     private bool roundOver;
-    public bool RoundOver
-    {
-        set
-        {
+    public bool RoundOver {
+        set {
             roundOver = value;
         }
-        get
-        {
+        get {
             return roundOver;
         }
     }
 
     private bool gameOver;
-    public bool GameOver
-    {
-        set
-        {
+    public bool GameOver {
+        set {
             gameOver = value;
         }
-        get
-        {
+        get {
             return gameOver;
         }
     }
 
     private bool roundInProgress;
-    public bool RoundInProgress
-    {
-        get
-        {
+    public bool RoundInProgress {
+        get {
             return roundInProgress;
         }
-        set
-        {
+        set {
             roundInProgress = value;
         }
     }
 
     private bool ballKilledByBorderThisRound;
-    public bool BallKilledByBorderThisRound
-    {
-        set
-        {
+    public bool BallKilledByBorderThisRound {
+        set {
             ballKilledByBorderThisRound = value;
         }
-        get
-        {
+        get {
             return ballKilledByBorderThisRound;
         }
     }
@@ -73,48 +57,37 @@ public class CGameInfo : MonoBehaviour
     private static float MIN_SPAWN_POINT_X = -2.5f;
     private static float MAX_SPAWN_POINT_X = 2.5f;
     private Vector2 spawnPoint = new Vector2(0f, SPAWN_POINT_Y);
-    public Vector2 SpawnPoint
-    {
-        set
-        {
-            if(value.x > MAX_SPAWN_POINT_X)
-            {
+    public Vector2 SpawnPoint {
+        set {
+            if (value.x > MAX_SPAWN_POINT_X) {
                 value.x = MAX_SPAWN_POINT_X;
             }
-            if (value.x < MIN_SPAWN_POINT_X)
-            {
+            if (value.x < MIN_SPAWN_POINT_X) {
                 value.x = MIN_SPAWN_POINT_X;
             }
             spawnPoint = value;
         }
-        get
-        {
+        get {
             return spawnPoint;
         }
     }
 
     private int fieldHeight = 7;
-    public int FieldHeight
-    {
-        set
-        {
+    public int FieldHeight {
+        set {
             fieldHeight = value;
         }
-        get
-        {
+        get {
             return fieldHeight;
         }
     }
 
     private int fieldWidth = 7;
-    public int FieldWidth
-    {
-        set
-        {
+    public int FieldWidth {
+        set {
             fieldWidth = value;
         }
-        get
-        {
+        get {
             return fieldWidth;
         }
     }

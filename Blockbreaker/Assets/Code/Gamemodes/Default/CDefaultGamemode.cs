@@ -4,32 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CDefaultGamemode : MonoBehaviour
-{
+public class CDefaultGamemode : MonoBehaviour {
     private GameObject[][] field;
     private Canvas canvasGameOver;
     private CUIScore textScore;
     private CUIRound textRound;
     private CBlockSpawner bs;
     private CGameInfo gi;
-    public CGameInfo GameInfo
-    {
-        get
-        {
+    public CGameInfo GameInfo {
+        get {
             return gi;
         }
     }
     private CPlayerInfo pi;
-    public CPlayerInfo PlayerInfo
-    {
-        get
-        {
+    public CPlayerInfo PlayerInfo {
+        get {
             return pi;
         }
     }
 
-    void Start()
-    {
+    void Start() {
         canvasGameOver = GameObject.Find("CanvasGameOver").GetComponent<Canvas>();
         textScore = GameObject.Find("TextScoreValue").GetComponent<CUIScore>();
         textRound = GameObject.Find("TextRoundValue").GetComponent<CUIRound>();
@@ -44,14 +38,11 @@ public class CDefaultGamemode : MonoBehaviour
         textRound.UpdateRoundText(gi.Round);
     }
 
-    void Update()
-    {
-        if (IsRoundOver())
-        {
+    void Update() {
+        if (IsRoundOver()) {
             RemoveAllUsedPowerUps();
             UpdateForNextRound();
-            if (IsGameOver())
-            {
+            if (IsGameOver()) {
                 GameOver();
                 return;
             }
@@ -59,8 +50,7 @@ public class CDefaultGamemode : MonoBehaviour
         }
     }
 
-    private void UpdateForNextRound()
-    {
+    private void UpdateForNextRound() {
         MoveArraysInArray();
         MoveObjectsOnScreen();
 
@@ -73,56 +63,39 @@ public class CDefaultGamemode : MonoBehaviour
         gi.RoundInProgress = false;
     }
 
-    private void MoveObjectsOnScreen()
-    {
-        foreach (GameObject[] array in field)
-        {
+    private void MoveObjectsOnScreen() {
+        foreach (GameObject[] array in field) {
             bs.MoveGameObjects(array);
         }
     }
 
-    private void MoveArraysInArray()
-    {
-        for (int index = gi.FieldHeight - 2; index >= 0; index--)
-        {
-            if (!IsArrayEmpty(field[index]))
-            {
+    private void MoveArraysInArray() {
+        for (int index = gi.FieldHeight - 2; index >= 0; index--) {
+            if (!IsArrayEmpty(field[index])) {
                 field[index + 1] = field[index];
-            }
-            else
-            {
+            } else {
                 field[index + 1] = null;
             }
             field[index] = null;
         }
     }
 
-    private bool IsArrayEmpty(GameObject[] array)
-    {
-        if (array != null)
-        {
-            foreach (GameObject go in array)
-            {
+    private bool IsArrayEmpty(GameObject[] array) {
+        if (array != null) {
+            foreach (GameObject go in array) {
                 return false;
             }
         }
         return true;
     }
 
-    private bool IsGameOver()
-    {
-        if (field[field.Length - 1] != null)
-        {
-            foreach (GameObject go in field[field.Length - 1])
-            {
-                if (go != null)
-                {
-                    if (go.tag.Equals("Box"))
-                    {
+    private bool IsGameOver() {
+        if (field[field.Length - 1] != null) {
+            foreach (GameObject go in field[field.Length - 1]) {
+                if (go != null) {
+                    if (go.tag.Equals("Box")) {
                         gi.GameOver = true;
-                    }
-                    else if (go.tag.Equals("PowerUp"))
-                    {
+                    } else if (go.tag.Equals("PowerUp")) {
                         go.GetComponent<CPowerUp>().DestoryAtEndOfRound = true;
                     }
                 }
@@ -131,60 +104,45 @@ public class CDefaultGamemode : MonoBehaviour
         return gi.GameOver;
     }
 
-    private void GameOver()
-    {
+    private void GameOver() {
         canvasGameOver.enabled = true;
     }
 
-    private bool IsRoundOver()
-    {
+    private bool IsRoundOver() {
         return gi.RoundOver;
     }
 
-    public void CheckRoundOver(CBall ball, bool killedByBorder)
-    {
-        if (killedByBorder && IsFirstBallToBeKilledByBorder())
-        {
+    public void CheckRoundOver(CBall ball, bool killedByBorder) {
+        if (killedByBorder && IsFirstBallToBeKilledByBorder()) {
             GameInfo.SpawnPoint = new Vector2(ball.transform.position.x, CGameInfo.SPAWN_POINT_Y);
         }
-        if (GameObject.FindGameObjectsWithTag("PlayerBall").Length - 1 == 0)
-        {
+        if (GameObject.FindGameObjectsWithTag("PlayerBall").Length - 1 == 0) {
             gi.RoundOver = true;
             ResetFirstBallToBeKilledByBorder();
         }
     }
 
-    private void ResetFirstBallToBeKilledByBorder()
-    {
+    private void ResetFirstBallToBeKilledByBorder() {
         GameInfo.BallKilledByBorderThisRound = false;
     }
 
-    private bool IsFirstBallToBeKilledByBorder()
-    {
-        if (GameInfo.BallKilledByBorderThisRound)
-        {
+    private bool IsFirstBallToBeKilledByBorder() {
+        if (GameInfo.BallKilledByBorderThisRound) {
             return false;
         }
         GameInfo.BallKilledByBorderThisRound = true;
         return true;
     }
 
-    private void RemoveAllUsedPowerUps()
-    {
-        foreach (GameObject[] gos in field)
-        {
-            if (gos != null)
-            {
-                for (int index = 0; index < gos.Length; index++)
-                {
+    private void RemoveAllUsedPowerUps() {
+        foreach (GameObject[] gos in field) {
+            if (gos != null) {
+                for (int index = 0; index < gos.Length; index++) {
                     GameObject go = gos[index];
-                    if (go != null)
-                    {
-                        if (go.tag.Equals("PowerUp"))
-                        {
+                    if (go != null) {
+                        if (go.tag.Equals("PowerUp")) {
                             CPowerUp up = go.GetComponent<CPowerUp>();
-                            if (up.DestoryAtEndOfRound)
-                            {
+                            if (up.DestoryAtEndOfRound) {
                                 gos[index] = null;
                                 up.KillPowerUp();
                             }
@@ -195,8 +153,7 @@ public class CDefaultGamemode : MonoBehaviour
         }
     }
 
-    public void addPoints(int points)
-    {
+    public void addPoints(int points) {
         pi.Points = pi.Points + points;
         textScore.UpdateScoreText(pi.Points);
     }

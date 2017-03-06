@@ -8,24 +8,20 @@ using UnityEngine;
 abstract public class CPowerUp : MonoBehaviour {
 
     private bool destroyAtEndOfRound;
-    public bool DestoryAtEndOfRound
-    {
-        set
-        {
+    public bool DestoryAtEndOfRound {
+        set {
             destroyAtEndOfRound = value;
         }
-        get
-        {
+        get {
             return destroyAtEndOfRound;
         }
     }
     // Use this for initialization
-    public virtual void Start () {
+    public virtual void Start() {
         destroyAtEndOfRound = false;
     }
 
-    public void KillPowerUp()
-    {
+    public void KillPowerUp() {
         Destroy(this.gameObject);
     }
 }
