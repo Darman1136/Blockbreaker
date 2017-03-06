@@ -57,6 +57,7 @@ public class CBall : MonoBehaviour
     private static float MIN_SPEED = 0.3f;
     private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.35f;
     private static float UNSTUCK_BOOST = 7f;
+    private static float[] DIRECTION = { -1, 1 };
 
     void Start()
     {
@@ -115,7 +116,7 @@ public class CBall : MonoBehaviour
 
     public void UnstuckMe()
     {
-        rb.velocity = new Vector2(rb.velocity.x, UNSTUCK_BOOST);
+        rb.velocity = new Vector2(DIRECTION[UnityEngine.Random.Range(0, 2)] * rb.velocity.x, UNSTUCK_BOOST);
     }
 
     public void KillBall(bool killedByBorder)
