@@ -70,11 +70,21 @@ public class CGameInfo : MonoBehaviour
     }
 
     public static float SPAWN_POINT_Y = 0.35f;
+    private static float MIN_SPAWN_POINT_X = -2.5f;
+    private static float MAX_SPAWN_POINT_X = 2.5f;
     private Vector2 spawnPoint = new Vector2(0f, SPAWN_POINT_Y);
     public Vector2 SpawnPoint
     {
         set
         {
+            if(value.x > MAX_SPAWN_POINT_X)
+            {
+                value.x = MAX_SPAWN_POINT_X;
+            }
+            if (value.x < MIN_SPAWN_POINT_X)
+            {
+                value.x = MIN_SPAWN_POINT_X;
+            }
             spawnPoint = value;
         }
         get
