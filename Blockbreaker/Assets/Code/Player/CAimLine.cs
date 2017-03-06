@@ -156,7 +156,7 @@ public class CAimLine : MonoBehaviour
 
         if (vec3pos.x < 2.75 && vec3pos.x > -2.75f)
         {
-            float angleMultiply = -1 * Mathf.Sign(vec3pos.x);
+            float angleMultiply = -1 * Mathf.Sign(vec3pos.x - vec1pos.x);
             float reflection = Vector3.Angle(vec1dir, Vector3.down) * 2 * angleMultiply;
             Vector3 vec3dir = Quaternion.Euler(0, 0, reflection) * vec1dir;
 
