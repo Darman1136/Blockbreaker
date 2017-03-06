@@ -9,6 +9,7 @@ public class CDefaultGamemode : MonoBehaviour
     private GameObject[][] field;
     private Canvas canvasGameOver;
     private CUIScore textScore;
+    private CUIRound textRound;
     private CBlockSpawner bs;
     private CGameInfo gi;
     public CGameInfo GameInfo
@@ -31,6 +32,7 @@ public class CDefaultGamemode : MonoBehaviour
     {
         canvasGameOver = GameObject.Find("CanvasGameOver").GetComponent<Canvas>();
         textScore = GameObject.Find("TextScoreValue").GetComponent<CUIScore>();
+        textRound = GameObject.Find("TextRoundValue").GetComponent<CUIRound>();
         bs = GetComponent<CBlockSpawner>();
         GameObject goInformation = GameObject.Find("Information");
         gi = goInformation.GetComponent<CGameInfo>();
@@ -39,6 +41,7 @@ public class CDefaultGamemode : MonoBehaviour
         gi.RoundOver = true;
         field = new GameObject[gi.FieldHeight][];
         textScore.UpdateScoreText(pi.Points);
+        textRound.UpdateRoundText(gi.Round);
     }
 
     void Update()
@@ -64,6 +67,7 @@ public class CDefaultGamemode : MonoBehaviour
         gi.Round = ++gi.Round;
         GameObject[] newObjects = bs.SpawnNextRound(gi.Round);
         field[0] = newObjects;
+        textRound.UpdateRoundText(gi.Round);
 
         gi.RoundOver = false;
         gi.RoundInProgress = false;
