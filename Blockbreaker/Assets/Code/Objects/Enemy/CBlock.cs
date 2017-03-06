@@ -5,65 +5,81 @@ using UnityEngine;
 
 public class CBlock : MonoBehaviour
 {
+    private SpriteRenderer sr;
+    private CBlockHealthText cbht;
+    private CDefaultGamemode gamemode;
+
     private int health = 99999;
     public int Health
     {
         set
         {
-            this.health = value;
+            health = value;
+            SetColor();
+        }
+        get
+        {
+            return health;
         }
     }
 
-    private SpriteRenderer sr;
-    private CBlockHealthText cbht;
-
-    // Use this for initialization
     void Start()
     {
+        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
         sr = GetComponent<SpriteRenderer>();
-        cbht =  GetComponentInChildren<CBlockHealthText>();
-        cbht.SetInitialText(health.ToString());
+        cbht = GetComponentInChildren<CBlockHealthText>();
+        cbht.SetInitialText(Health.ToString());
+        SetColor();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!isAlive())
+        if (!IsAlive())
         {
             Destroy(gameObject);
         }
-        else
-        {
-            setColor();
-        }
     }
 
-    private void setColor()
+    private void SetColor()
     {
-        switch(health)
+        if (sr != null)
         {
-            case 15:
-                sr.color = Color.green;
-                break;
-            case 10:
-                sr.color = Color.yellow;
-                break;
-            case 5:
+            if (Health < 16)
+            {
+                sr.color = Color.white;
+            }
+            else if (Health < 32)
+            {
                 sr.color = Color.red;
-                break;
-            default:            
-                break;
+            }
+            else if (Health < 64)
+            {
+                sr.color = Color.yellow;
+            }
+            else if (Health < 128)
+            {
+                sr.color = Color.green;
+            }
+            else if (Health < 256)
+            {
+                sr.color = Color.magenta;
+            }
+            else if (Health < 512)
+            {
+                sr.color = Color.blue;
+            }
         }
     }
 
-    private bool isAlive()
+    private bool IsAlive()
     {
-        return health > 0;
+        return Health > 0;
     }
 
     void Hit(int amt)
     {
-        health -= amt;
-        cbht.UpdateText(health.ToString());
+        gamemode.addPoints(amt);
+        Health = Health - amt;
+        cbht.UpdateText(Health.ToString());
     }
 }

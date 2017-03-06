@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CDefaultGamemode : MonoBehaviour
 {
     private GameObject[][] field;
     private Canvas canvasGameOver;
+    private CUIScore textScore;
     private CBlockSpawner bs;
     private CGameInfo gi;
     public CGameInfo GameInfo
@@ -28,6 +30,7 @@ public class CDefaultGamemode : MonoBehaviour
     void Start()
     {
         canvasGameOver = GameObject.Find("CanvasGameOver").GetComponent<Canvas>();
+        textScore = GameObject.Find("TextScoreValue").GetComponent<CUIScore>();
         bs = GetComponent<CBlockSpawner>();
         GameObject goInformation = GameObject.Find("Information");
         gi = goInformation.GetComponent<CGameInfo>();
@@ -35,6 +38,7 @@ public class CDefaultGamemode : MonoBehaviour
 
         gi.RoundOver = true;
         field = new GameObject[gi.FieldHeight][];
+        textScore.UpdateScoreText(pi.Points);
     }
 
     void Update()
@@ -103,7 +107,7 @@ public class CDefaultGamemode : MonoBehaviour
 
     private bool IsGameOver()
     {
-        if (field[field.Length -1] != null)
+        if (field[field.Length - 1] != null)
         {
             foreach (GameObject go in field[field.Length - 1])
             {
@@ -153,7 +157,7 @@ public class CDefaultGamemode : MonoBehaviour
 
     private bool IsFirstBallToBeKilledByBorder()
     {
-        if(GameInfo.BallKilledByBorderThisRound)
+        if (GameInfo.BallKilledByBorderThisRound)
         {
             return false;
         }
@@ -174,7 +178,7 @@ public class CDefaultGamemode : MonoBehaviour
                     {
                         if (go.tag.Equals("PowerUp"))
                         {
-                            CPowerUp up=  go.GetComponent<CPowerUp>();
+                            CPowerUp up = go.GetComponent<CPowerUp>();
                             if (up.DestoryAtEndOfRound)
                             {
                                 gos[index] = null;
@@ -185,5 +189,11 @@ public class CDefaultGamemode : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void addPoints(int points)
+    {
+        pi.Points = pi.Points + points;
+        textScore.UpdateScoreText(pi.Points);
     }
 }
