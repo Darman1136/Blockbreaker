@@ -5,19 +5,6 @@ using UnityEngine;
 
 public class CDefaultGamemode : MonoBehaviour
 {
-    private bool roundOver, gameOver, roundInProgress;
-    public bool RoundInProgress
-    {
-        get
-        {
-            return this.roundInProgress;
-        }
-        set
-        {
-            this.roundInProgress = value;
-        }
-    }
-
     private GameObject[][] field;
     private Canvas canvasGameOver;
     private CBlockSpawner bs;
@@ -40,16 +27,13 @@ public class CDefaultGamemode : MonoBehaviour
 
     void Start()
     {
-        roundOver = true;
-        roundInProgress = true;
-        gameOver = false;
-
         canvasGameOver = GameObject.Find("CanvasGameOver").GetComponent<Canvas>();
         bs = GetComponent<CBlockSpawner>();
         GameObject goInformation = GameObject.Find("Information");
         gi = goInformation.GetComponent<CGameInfo>();
         pi = goInformation.GetComponent<CPlayerInfo>();
 
+        gi.RoundOver = true;
         field = new GameObject[gi.FieldHeight][];
     }
 
@@ -77,8 +61,8 @@ public class CDefaultGamemode : MonoBehaviour
         GameObject[] newObjects = bs.SpawnNextRound(gi.Round);
         field[0] = newObjects;
 
-        roundOver = false;
-        roundInProgress = false;
+        gi.RoundOver = false;
+        gi.RoundInProgress = false;
     }
 
     private void MoveObjectsOnScreen()
@@ -119,7 +103,7 @@ public class CDefaultGamemode : MonoBehaviour
 
     private bool IsGameOver()
     {
-        if (field[field.Length - 1] != null)
+        if (field[field.Length -1] != null)
         {
             foreach (GameObject go in field[field.Length - 1])
             {
@@ -127,7 +111,7 @@ public class CDefaultGamemode : MonoBehaviour
                 {
                     if (go.tag.Equals("Box"))
                     {
-                        gameOver = true;
+                        gi.GameOver = true;
                     }
                     else if (go.tag.Equals("PowerUp"))
                     {
@@ -136,7 +120,7 @@ public class CDefaultGamemode : MonoBehaviour
                 }
             }
         }
-        return gameOver;
+        return gi.GameOver;
     }
 
     private void GameOver()
@@ -146,7 +130,7 @@ public class CDefaultGamemode : MonoBehaviour
 
     private bool IsRoundOver()
     {
-        return roundOver;
+        return gi.RoundOver;
     }
 
     public void CheckRoundOver(CBall ball, bool killedByBorder)
@@ -157,7 +141,7 @@ public class CDefaultGamemode : MonoBehaviour
         }
         if (GameObject.FindGameObjectsWithTag("PlayerBall").Length - 1 == 0)
         {
-            roundOver = true;
+            gi.RoundOver = true;
             ResetFirstBallToBeKilledByBorder();
         }
     }

@@ -9,19 +9,17 @@ public class CInput : MonoBehaviour
     private CAimLine aimLine;
     public GameObject Spawner;
 
-    // Use this for initialization
     void Start()
     {
         gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
         aimLine = GameObject.Find("AimLine").GetComponent<CAimLine>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !gamemode.RoundInProgress)
+        if (!gamemode.GameInfo.GameOver && Input.GetMouseButtonDown(0) && !gamemode.GameInfo.RoundInProgress)
         {
-            gamemode.RoundInProgress = true;
+            gamemode.GameInfo.RoundInProgress = true;
             CreateSpawner();
         }
     }

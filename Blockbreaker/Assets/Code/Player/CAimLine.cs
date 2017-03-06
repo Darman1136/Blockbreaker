@@ -59,7 +59,7 @@ public class CAimLine : MonoBehaviour
 
     void Update()
     {
-        if (!gamemode.RoundInProgress)
+        if (!gamemode.GameInfo.GameOver && !gamemode.GameInfo.RoundInProgress)
         {
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = 8.3f;

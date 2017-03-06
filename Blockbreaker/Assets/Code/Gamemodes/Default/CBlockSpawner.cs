@@ -7,7 +7,7 @@ public class CBlockSpawner : MonoBehaviour
 {
     private CDefaultGamemode gamemode;
 
-    private static float FIRST_SPAWNPOINT_Y = 5.75f;
+    private static float FIRST_SPAWNPOINT_Y = 5.15f;
     private static float FIRST_SPAWNPOINT_X = -2.25f;
     private static float SPACING_TO_NEXT_SPAWNPOINT = .75f;
 

@@ -17,6 +17,45 @@ public class CGameInfo : MonoBehaviour
         }
     }
 
+    private bool roundOver;
+    public bool RoundOver
+    {
+        set
+        {
+            roundOver = value;
+        }
+        get
+        {
+            return roundOver;
+        }
+    }
+
+    private bool gameOver;
+    public bool GameOver
+    {
+        set
+        {
+            gameOver = value;
+        }
+        get
+        {
+            return gameOver;
+        }
+    }
+
+    private bool roundInProgress;
+    public bool RoundInProgress
+    {
+        get
+        {
+            return roundInProgress;
+        }
+        set
+        {
+            roundInProgress = value;
+        }
+    }
+
     private bool ballKilledByBorderThisRound;
     public bool BallKilledByBorderThisRound
     {
