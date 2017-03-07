@@ -18,6 +18,10 @@ public class CInput : MonoBehaviour {
             gamemode.GameInfo.RoundInProgress = true;
             CreateSpawner();
         }
+
+        if(Input.GetAxisRaw("Cancel") == 1) {
+            Application.Quit();
+        }
     }
 
     private void CreateSpawner() {

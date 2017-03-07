@@ -40,8 +40,9 @@ public class CAimLine : MonoBehaviour {
     void Start() {
         GetComponent<Renderer>().sortingLayerName = "AimLine";
         lr = GetComponent<LineRenderer>();
+        Material whiteDiffuseMat = new Material(Shader.Find("Sprites/Default"));
+        lr.material = whiteDiffuseMat;
         gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
-
         Transform border = GameObject.Find("TopBorder").GetComponent<Transform>();
         MAX_Y_MOUSE_POSITION = Camera.main.WorldToScreenPoint(border.position).y;
         border = GameObject.Find("BottomBorder").GetComponent<Transform>();
@@ -78,6 +79,10 @@ public class CAimLine : MonoBehaviour {
         } else {
             lr.numPositions = 0;
         }
+    }
+
+    private void OnDestroy() {
+        Destroy(lr.material);
     }
 
     private Vector3[] FindReflectionLine(Vector3 endPointPosition) {
