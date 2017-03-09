@@ -118,7 +118,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.Company.ProductName
+  bundleIdentifier: de.block.breaker
   bundleVersion: 1.0
   preloadedAssets: []
   metroInputSource: 0
@@ -386,7 +386,7 @@ PlayerSettings:
   webGLUseWasm: 0
   webGLCompressionFormat: 1
   scriptingDefineSymbols:
-    7: 
+    7: PUAdvancedAimLine
   platformArchitecture: {}
   scriptingBackend: {}
   incrementalIl2cppBuild: {}

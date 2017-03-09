@@ -7,7 +7,6 @@ public class CPUAdvancedAimLine : CPowerUp {
     private CDefaultGamemode gamemode;
     public override void Start() {
         base.Start();
-        GameObject goInformation = GameObject.Find("Information");
         gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
     }
 
