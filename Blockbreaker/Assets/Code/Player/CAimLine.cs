@@ -60,16 +60,16 @@ public class CAimLine : MonoBehaviour {
             Vector3 endPointPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             endPointPosition.z = -0.001f;
 
-
-            Vector3[] lines = FindReflectionLine(endPointPosition);
             int numPoints = 2;
-            if (lines != null) {
-                actualAimPosition = lines;
-                numPoints = 4;
-            } else {
-                actualAimPosition = new Vector3[] { GetLineStartPoint(), endPointPosition };
-            }
+            actualAimPosition = new Vector3[] { GetLineStartPoint(), endPointPosition };
 
+            if (gamemode.HasAdvancedAimLineThisRound()) {
+                Vector3[] lines = FindReflectionLine(endPointPosition);
+                if (lines != null) {
+                    actualAimPosition = lines;
+                    numPoints = 4;
+                }
+            }
 
             if (IsValidMousePosition(mousePosition)) {
                 drawnAimPosition = actualAimPosition;

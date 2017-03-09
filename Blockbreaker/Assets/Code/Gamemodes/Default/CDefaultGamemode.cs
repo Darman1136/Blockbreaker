@@ -59,6 +59,9 @@ public class CDefaultGamemode : MonoBehaviour {
         field[0] = newObjects;
         textRound.UpdateRoundText(gi.Round);
 
+        if (!HasAdvancedAimLineThisRound()) {
+            gi.AdvancedAimLineInRound = 0;
+        }
         gi.RoundOver = false;
         gi.RoundInProgress = false;
     }
@@ -104,7 +107,7 @@ public class CDefaultGamemode : MonoBehaviour {
         return gi.GameOver;
     }
 
-    private void GameOver() {
+        private void GameOver() {
         canvasGameOver.enabled = true;
     }
 
@@ -156,5 +159,16 @@ public class CDefaultGamemode : MonoBehaviour {
     public void addPoints(int points) {
         pi.Points = pi.Points + points;
         textScore.UpdateScoreText(pi.Points);
+    }
+
+    /**
+    * Improved aiming support for next round.
+    */
+    public void SetAdvancedAimLine() {
+        gi.AdvancedAimLineInRound = gi.Round + 1;
+    }
+
+    public bool HasAdvancedAimLineThisRound() {
+        return gi.Round == gi.AdvancedAimLineInRound;
     }
 }

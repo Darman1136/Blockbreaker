@@ -15,11 +15,12 @@ public class CBlockSpawner : MonoBehaviour {
     public GameObject PUExtraBallPrefab;
     public GameObject PUKillBallPrefab;
     public GameObject PUNewBallPrefab;
+    public GameObject PUAdvancedAimLine;
 
-    public GameObject[] powerUps;
+    private GameObject[] powerUps;
 
     void Start() {
-        powerUps = new GameObject[] { PUBouncePrefab, PUExtraBallPrefab, PUKillBallPrefab };
+        powerUps = new GameObject[] { PUBouncePrefab, PUExtraBallPrefab, PUKillBallPrefab, PUAdvancedAimLine };
         gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
     }
 

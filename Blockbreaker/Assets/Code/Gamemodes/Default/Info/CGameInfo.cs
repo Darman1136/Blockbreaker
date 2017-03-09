@@ -91,4 +91,14 @@ public class CGameInfo : MonoBehaviour {
             return fieldWidth;
         }
     }
+
+    private int advancedAimLineInRound;
+    public int AdvancedAimLineInRound {
+        set {
+            advancedAimLineInRound = value;
+        }
+        get {
+            return advancedAimLineInRound;
+        }
+    }
 }

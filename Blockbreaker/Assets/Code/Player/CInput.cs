@@ -25,7 +25,7 @@ public class CInput : MonoBehaviour {
     }
 
     private void CreateSpawner() {
-        if (aimLine.AimPosition.Length > 2) {
+        if (aimLine.AimPosition.Length >= 2) {
             Vector2 spawnVelocity = aimLine.AimPosition[1] - aimLine.AimPosition[0];
 
             CTimedSpawner spawner = Instantiate(Spawner, new Vector2(9999f, 9999f), Quaternion.identity).GetComponent<CTimedSpawner>();

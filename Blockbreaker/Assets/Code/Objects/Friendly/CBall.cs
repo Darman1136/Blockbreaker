@@ -41,7 +41,7 @@ public class CBall : MonoBehaviour {
         }
     }
 
-    private static float SPEED = 10f;
+    private static float SPEED = 8f;
     private static float MIN_SPEED = 0.3f;
     private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.35f;
     private static float UNSTUCK_BOOST = 7f;

@@ -3,17 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CPUNewBall : CPowerUp {
+public class CPUAdvancedAimLine : CPowerUp {
     private CDefaultGamemode gamemode;
     public override void Start() {
         base.Start();
+        GameObject goInformation = GameObject.Find("Information");
         gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
         string tag = collision.gameObject.tag;
         if (tag.Equals("PlayerBall")) {
-            gamemode.PlayerInfo.Balls = ++gamemode.PlayerInfo.Balls;
+            gamemode.SetAdvancedAimLine();
             Destroy(this.gameObject);
         }
     }
