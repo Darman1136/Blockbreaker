@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CInput : MonoBehaviour {
     private CDefaultGamemode gamemode;
@@ -14,13 +15,13 @@ public class CInput : MonoBehaviour {
     }
 
     void Update() {
-        if (!gamemode.GameInfo.GameOver && Input.GetMouseButtonDown(0) && !gamemode.GameInfo.RoundInProgress) {
+        if (!gamemode.GameInfo.GameOver && Input.GetMouseButtonUp(0) && !gamemode.GameInfo.RoundInProgress) {
             gamemode.GameInfo.RoundInProgress = true;
             CreateSpawner();
         }
 
         if(Input.GetAxisRaw("Cancel") == 1) {
-            Application.Quit();
+            SceneManager.LoadScene(0);
         }
     }
 
