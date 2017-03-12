@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CBlock : MonoBehaviour {
-    private SpriteRenderer sr;
     private CBlockHealthText cbht;
     private CDefaultGamemode gamemode;
+
+    private SpriteRenderer sr;
+    public ParticleSystem ps;
+    public AudioClip aCDestory;
 
     private int health = 99999;
     public int Health {
@@ -29,7 +32,7 @@ public class CBlock : MonoBehaviour {
 
     void Update() {
         if (!IsAlive()) {
-            Destroy(gameObject);
+            Destroy();
         }
     }
 
@@ -59,5 +62,12 @@ public class CBlock : MonoBehaviour {
         gamemode.addPoints(amt);
         Health = Health - amt;
         cbht.UpdateText(Health.ToString());
+        AudioSource.PlayClipAtPoint(aCDestory, transform.position);
+    }
+
+    void Destroy() {
+        ParticleSystem spawnedPs = Instantiate(ps, transform.position, Quaternion.identity);
+        Destroy(spawnedPs.gameObject, spawnedPs.main.duration + spawnedPs.startLifetime);
+        Destroy(gameObject);
     }
 }

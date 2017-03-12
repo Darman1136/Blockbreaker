@@ -62,6 +62,7 @@ public class CDefaultGamemode : MonoBehaviour {
         if (!HasAdvancedAimLineThisRound()) {
             gi.AdvancedAimLineInRound = 0;
         }
+        gi.BallKilledByBorderThisRound = false;
         gi.RoundOver = false;
         gi.RoundInProgress = false;
     }
@@ -107,7 +108,7 @@ public class CDefaultGamemode : MonoBehaviour {
         return gi.GameOver;
     }
 
-        private void GameOver() {
+    private void GameOver() {
         canvasGameOver.enabled = true;
     }
 
@@ -121,12 +122,7 @@ public class CDefaultGamemode : MonoBehaviour {
         }
         if (GameObject.FindGameObjectsWithTag("PlayerBall").Length - 1 == 0) {
             gi.RoundOver = true;
-            ResetFirstBallToBeKilledByBorder();
         }
-    }
-
-    private void ResetFirstBallToBeKilledByBorder() {
-        GameInfo.BallKilledByBorderThisRound = false;
     }
 
     private bool IsFirstBallToBeKilledByBorder() {
