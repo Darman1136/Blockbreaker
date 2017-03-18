@@ -84,9 +84,10 @@ public class CDefaultGamemode : MonoBehaviour {
     }
 
     void OnDestroy() {
-        // currently only support saving when no round's active
-        if (IsRoundOver()) {
+        if (!IsGameOver()) {
             Save();
+        } else {
+            DestroyAllRemainingSpawnedObjects();
         }
     }
 
@@ -150,6 +151,10 @@ public class CDefaultGamemode : MonoBehaviour {
 
     private void GameOver() {
         canvasGameOver.enabled = true;
+
+        if (File.Exists(SAVE_FILE_LOCATION)) {
+            File.Delete(SAVE_FILE_LOCATION);
+        }
     }
 
     private bool IsRoundOver() {
@@ -291,6 +296,18 @@ public class CDefaultGamemode : MonoBehaviour {
                 bs.MoveGameObjects(respawnedObjects);
             }
             gi.Field[index] = respawnedObjects;
+        }
+    }
+
+    private void DestroyAllRemainingSpawnedObjects() {
+        foreach (CSpawnableObject[] soArray in gi.Field) {
+            if(soArray != null) {
+                foreach (CSpawnableObject so in soArray) {
+                    if(so != null) {
+                        Destroy(so.gameObject);
+                    }
+                }
+            }
         }
     }
 }
