@@ -42,7 +42,7 @@ public class CAimLine : MonoBehaviour {
         lr = GetComponent<LineRenderer>();
         Material whiteDiffuseMat = new Material(Shader.Find("Sprites/Default"));
         lr.material = whiteDiffuseMat;
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
+        gamemode = CDefaultGamemode.GAMEMODE;
         Transform border = GameObject.Find("TopBorder").GetComponent<Transform>();
         MAX_Y_MOUSE_POSITION = Camera.main.WorldToScreenPoint(border.position).y;
         border = GameObject.Find("BottomBorder").GetComponent<Transform>();

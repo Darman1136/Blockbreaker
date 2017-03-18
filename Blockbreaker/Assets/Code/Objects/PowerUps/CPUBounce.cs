@@ -19,4 +19,9 @@ public class CPUBounce : CPowerUp {
         }
     }
 
+    public override CSerializableSpawnableObject GetSerializableObject() {
+        CSerializableSpawnableObject sso = base.GetSerializableObject();
+        sso.data.Add("type", Type.CPUBounce);
+        return sso;
+    }
 }

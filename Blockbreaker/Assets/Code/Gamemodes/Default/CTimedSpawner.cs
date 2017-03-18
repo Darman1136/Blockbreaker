@@ -21,7 +21,7 @@ public class CTimedSpawner : MonoBehaviour {
     public GameObject objectToSpawn;
 
     void Start() {
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
+        gamemode = CDefaultGamemode.GAMEMODE;
         spawnPoint = gamemode.GameInfo.SpawnPoint;
         SpawnBall();
     }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CBlock : MonoBehaviour {
+public class CBlock : CSpawnableObject {
     private CBlockHealthText cbht;
     private CDefaultGamemode gamemode;
 
@@ -22,8 +22,12 @@ public class CBlock : MonoBehaviour {
         }
     }
 
+    void Awake() {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start() {
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
+        gamemode = CDefaultGamemode.GAMEMODE; 
         sr = GetComponent<SpriteRenderer>();
         cbht = GetComponentInChildren<CBlockHealthText>();
         cbht.SetInitialText(Health.ToString());
@@ -69,5 +73,12 @@ public class CBlock : MonoBehaviour {
         ParticleSystem spawnedPs = Instantiate(ps, transform.position, Quaternion.identity);
         Destroy(spawnedPs.gameObject, spawnedPs.main.duration + spawnedPs.startLifetime);
         Destroy(gameObject);
+    }
+
+    public override CSerializableSpawnableObject GetSerializableObject() {
+        CSerializableSpawnableObject sso = new CSerializableSpawnableObject();
+        sso.data.Add("type", Type.CBlock);
+        sso.data.Add("health", health);
+        return sso;
     }
 }

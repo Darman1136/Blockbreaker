@@ -7,7 +7,7 @@ public class CPUNewBall : CPowerUp {
     private CDefaultGamemode gamemode;
     public override void Start() {
         base.Start();
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
+        gamemode = CDefaultGamemode.GAMEMODE;
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
@@ -16,5 +16,11 @@ public class CPUNewBall : CPowerUp {
             gamemode.PlayerInfo.Balls = ++gamemode.PlayerInfo.Balls;
             Destroy(this.gameObject);
         }
+    }
+
+    public override CSerializableSpawnableObject GetSerializableObject() {
+        CSerializableSpawnableObject sso = base.GetSerializableObject();
+        sso.data.Add("type", Type.CPUNewBall);
+        return sso;
     }
 }

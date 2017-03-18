@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CPUKillBall : CPowerUp {
-    private CDefaultGamemode gamemode;
-
     public override void Start() {
         base.Start();
     }
@@ -15,5 +13,11 @@ public class CPUKillBall : CPowerUp {
             CBall ball = coll.gameObject.GetComponent<CBall>();
             ball.KillBall(false);
         }
+    }
+
+    public override CSerializableSpawnableObject GetSerializableObject() {
+        CSerializableSpawnableObject sso = base.GetSerializableObject();
+        sso.data.Add("type", Type.CPUKillBall);
+        return sso;
     }
 }

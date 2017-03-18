@@ -52,8 +52,8 @@ public class CBall : MonoBehaviour {
         if (rb != null) {
             rb.velocity = initialVelocity;
         }
-        watchdog = GameObject.Find("Gamemode").GetComponent<CBallStuckWatchdog>();
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
+        watchdog = CDefaultGamemode.GAMEMODE.GetComponent<CBallStuckWatchdog>();
+        gamemode = CDefaultGamemode.GAMEMODE;
 
         bounce = false;
         alreadyEnteredBouncePowerUp = false;

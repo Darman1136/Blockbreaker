@@ -10,7 +10,7 @@ public class CInput : MonoBehaviour {
     public GameObject Spawner;
 
     void Start() {
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
+        gamemode = CDefaultGamemode.GAMEMODE;
         aimLine = GameObject.Find("AimLine").GetComponent<CAimLine>();
     }
 

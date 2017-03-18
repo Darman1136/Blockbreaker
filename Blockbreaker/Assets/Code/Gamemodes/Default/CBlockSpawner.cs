@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class CBlockSpawner : MonoBehaviour {
     private CDefaultGamemode gamemode;
 
@@ -10,22 +11,22 @@ public class CBlockSpawner : MonoBehaviour {
     private static float FIRST_SPAWNPOINT_X = -2.25f;
     private static float SPACING_TO_NEXT_SPAWNPOINT = .75f;
 
-    public GameObject BlockPrefab;
-    public GameObject PUBouncePrefab;
-    public GameObject PUExtraBallPrefab;
-    public GameObject PUKillBallPrefab;
-    public GameObject PUNewBallPrefab;
-    public GameObject PUAdvancedAimLine;
+    public CBlock BlockPrefab;
+    public CPowerUp PUBouncePrefab;
+    public CPowerUp PUExtraBallPrefab;
+    public CPowerUp PUKillBallPrefab;
+    public CPowerUp PUNewBallPrefab;
+    public CPowerUp PUAdvancedAimLine;
 
-    private GameObject[] powerUps;
+    private CSpawnableObject[] powerUps;
 
     void Start() {
-        powerUps = new GameObject[] { PUBouncePrefab, PUExtraBallPrefab, PUKillBallPrefab, PUAdvancedAimLine };
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
+        powerUps = new CSpawnableObject[] { PUBouncePrefab, PUExtraBallPrefab, PUKillBallPrefab, PUAdvancedAimLine };
+        gamemode = CDefaultGamemode.GAMEMODE;
     }
 
-    public GameObject[] SpawnNextRound(int round) {
-        GameObject[] newObjects = new GameObject[gamemode.GameInfo.FieldHeight];
+    public CSpawnableObject[] SpawnNextRound(int round) {
+        CSpawnableObject[] newObjects = new CSpawnableObject[gamemode.GameInfo.FieldHeight];
 
         SpawnNewBallPU(newObjects);
 
@@ -37,25 +38,25 @@ public class CBlockSpawner : MonoBehaviour {
         return newObjects;
     }
 
-    private void SpawnPowerUps(GameObject[] newObjects) {
+    private void SpawnPowerUps(CSpawnableObject[] newObjects) {
         int position = UnityEngine.Random.Range(0, gamemode.GameInfo.FieldWidth);
         if (CanSpawnAtPosition(newObjects, position)) {
-            GameObject powerUpToSpawn = powerUps[UnityEngine.Random.Range(0, powerUps.Length)];
+            CSpawnableObject powerUpToSpawn = powerUps[UnityEngine.Random.Range(0, powerUps.Length)];
             InstantiateObject(newObjects, position, powerUpToSpawn);
         }
     }
 
-    private bool CanSpawnAtPosition(GameObject[] newObjects, int arrayPosition) {
+    private bool CanSpawnAtPosition(CSpawnableObject[] newObjects, int arrayPosition) {
         if (newObjects[arrayPosition] == null) {
             return true;
         }
         return false;
     }
 
-    private void SpawnBlocks(GameObject[] newObjects, int health) {
+    private void SpawnBlocks(CSpawnableObject[] newObjects, int health) {
         for (int i = 0; i < gamemode.GameInfo.FieldWidth; i++) {
             if (CanSpawnAtPosition(newObjects, i) && UnityEngine.Random.Range(0, 2) == 1) {
-                SpawnBlock(newObjects, i, BlockPrefab, health);
+                SpawnBlock(newObjects, i, health);
             }
         }
     }
@@ -63,14 +64,14 @@ public class CBlockSpawner : MonoBehaviour {
     /**
      * There may not be spawned another object at the returned position.
      */
-    private void SpawnNewBallPU(GameObject[] newObjects) {
+    private void SpawnNewBallPU(CSpawnableObject[] newObjects) {
         int position = UnityEngine.Random.Range(0, gamemode.GameInfo.FieldWidth);
         InstantiateObject(newObjects, position, PUNewBallPrefab);
     }
 
-    public void MoveGameObjects(GameObject[] array) {
+    public void MoveGameObjects(CSpawnableObject[] array) {
         if (array != null) {
-            foreach (GameObject go in array) {
+            foreach (CSpawnableObject go in array) {
                 if (go != null) {
                     go.transform.Translate(new Vector2(0f, -SPACING_TO_NEXT_SPAWNPOINT));
                 }
@@ -78,8 +79,8 @@ public class CBlockSpawner : MonoBehaviour {
         }
     }
 
-    private void CheckIfObjectsSpawned(GameObject[] newObjects, int health) {
-        foreach (GameObject go in newObjects) {
+    private void CheckIfObjectsSpawned(CSpawnableObject[] newObjects, int health) {
+        foreach (CSpawnableObject go in newObjects) {
             if (go != null && !go.tag.Equals("PowerUp")) {
                 return;
             }
@@ -94,16 +95,44 @@ public class CBlockSpawner : MonoBehaviour {
         if (tries <= 0) {
             Debug.LogError("Error when spawning at least one block. Didn't find a valid position.");
         }
-        SpawnBlock(newObjects, position, BlockPrefab, health * 2);
+        SpawnBlock(newObjects, position, health * 2);
     }
 
-    private void SpawnBlock(GameObject[] newObjects, int arrayPosition, GameObject objectToSpawn, int health) {
+    private void SpawnBlock(CSpawnableObject[] newObjects, int arrayPosition, int health) {
         InstantiateObject(newObjects, arrayPosition, BlockPrefab);
         newObjects[arrayPosition].GetComponent<CBlock>().Health = health;
     }
 
-    private void InstantiateObject(GameObject[] newObjects, int arrayPosition, GameObject objectToSpawn) {
+    public CBlock SpawnBlockOnLoad(int arrayPosition) {
+        return (CBlock)InstantiateObjectOnLoad(arrayPosition, BlockPrefab);
+    }
+
+    private void InstantiateObject(CSpawnableObject[] newObjects, int arrayPosition, CSpawnableObject objectToSpawn) {
         newObjects[arrayPosition] = Instantiate(objectToSpawn, new Vector2(FIRST_SPAWNPOINT_X + SPACING_TO_NEXT_SPAWNPOINT * arrayPosition, FIRST_SPAWNPOINT_Y), Quaternion.identity);
 
+    }
+
+    private CSpawnableObject InstantiateObjectOnLoad(int arrayPosition, CSpawnableObject objectToSpawn) {
+        return Instantiate(objectToSpawn, new Vector2(FIRST_SPAWNPOINT_X + SPACING_TO_NEXT_SPAWNPOINT * arrayPosition, FIRST_SPAWNPOINT_Y), Quaternion.identity);
+    }
+
+    public CPUNewBall SpawnCPUNewBallOnLoad(int arrayPosition) {
+        return (CPUNewBall)InstantiateObjectOnLoad(arrayPosition, PUNewBallPrefab);
+    }
+
+    public CPUKillBall SpawnCPUKillBallOnLoad(int arrayPosition) {
+        return (CPUKillBall)InstantiateObjectOnLoad(arrayPosition, PUKillBallPrefab);
+    }
+
+    public CPUExtraBall SpawnCPUExtraBallnOnLoad(int arrayPosition) {
+        return (CPUExtraBall)InstantiateObjectOnLoad(arrayPosition, PUExtraBallPrefab);
+    }
+
+    public CPUBounce SpawnCPUBounceOnLoad(int arrayPosition) {
+        return (CPUBounce)InstantiateObjectOnLoad(arrayPosition, PUBouncePrefab);
+    }
+
+    public CPUAdvancedAimLine SpawnCPUAdvancedAimLineOnLoad(int arrayPosition) {
+        return (CPUAdvancedAimLine)InstantiateObjectOnLoad(arrayPosition, PUAdvancedAimLine);
     }
 }

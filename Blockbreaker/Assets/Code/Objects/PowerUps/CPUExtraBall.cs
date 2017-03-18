@@ -32,4 +32,10 @@ public class CPUExtraBall : CPowerUp {
             duplicate.InitialVelocity = duplicate.AngleVelocityByDegree(-angle * 2, newVelocity);
         }
     }
+
+    public override CSerializableSpawnableObject GetSerializableObject() {
+        CSerializableSpawnableObject sso = base.GetSerializableObject();
+        sso.data.Add("type", Type.CPUExtraBall);
+        return sso;
+    }
 }

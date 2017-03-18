@@ -5,8 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 
-abstract public class CPowerUp : MonoBehaviour {
-
+abstract public class CPowerUp : CSpawnableObject {
     private bool destroyAtEndOfRound;
     public bool DestoryAtEndOfRound {
         set {
@@ -16,12 +15,22 @@ abstract public class CPowerUp : MonoBehaviour {
             return destroyAtEndOfRound;
         }
     }
-    // Use this for initialization
+
+    void Awake() {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public virtual void Start() {
         destroyAtEndOfRound = false;
     }
 
     public void KillPowerUp() {
         Destroy(this.gameObject);
+    }
+
+    public override CSerializableSpawnableObject GetSerializableObject() {
+        CSerializableSpawnableObject sso = new CSerializableSpawnableObject();
+        sso.data.Add("destroyAtEndOfRound", destroyAtEndOfRound);
+        return sso;
     }
 }

@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CPlayerInfo : MonoBehaviour {
+[Serializable]
+public class CPlayerInfo {
     private int points = 0;
     public int Points {
         get {

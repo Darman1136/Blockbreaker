@@ -7,7 +7,7 @@ public class CPUAdvancedAimLine : CPowerUp {
     private CDefaultGamemode gamemode;
     public override void Start() {
         base.Start();
-        gamemode = GameObject.Find("Gamemode").GetComponent<CDefaultGamemode>();
+        gamemode = CDefaultGamemode.GAMEMODE;
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
@@ -16,5 +16,11 @@ public class CPUAdvancedAimLine : CPowerUp {
             gamemode.SetAdvancedAimLine();
             Destroy(this.gameObject);
         }
+    }
+
+    public override CSerializableSpawnableObject GetSerializableObject() {
+        CSerializableSpawnableObject sso = base.GetSerializableObject();
+        sso.data.Add("type", Type.CPUAdvancedAimLine);
+        return sso;
     }
 }
