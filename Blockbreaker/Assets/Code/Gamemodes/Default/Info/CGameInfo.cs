@@ -46,6 +46,16 @@ public class CGameInfo {
         }
     }
 
+    private bool ballKilledThisRound;
+    public bool BallKilledThisRound {
+        set {
+            ballKilledThisRound = value;
+        }
+        get {
+            return ballKilledThisRound;
+        }
+    }
+
     private bool ballKilledByBorderThisRound;
     public bool BallKilledByBorderThisRound {
         set {

@@ -96,7 +96,7 @@ public class CBall : MonoBehaviour {
     }
 
     public void KillBall(bool killedByBorder) {
-        gamemode.CheckRoundOver(this, killedByBorder);
+        gamemode.BallDestroyed(this, killedByBorder);
         Destroy(this.gameObject);
     }
 }

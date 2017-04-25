@@ -79,7 +79,6 @@ public class CDefaultGamemode : MonoBehaviour {
                 GameOver();
                 return;
             }
-
         }
     }
 
@@ -103,6 +102,7 @@ public class CDefaultGamemode : MonoBehaviour {
         if (!HasAdvancedAimLineThisRound()) {
             gi.AdvancedAimLineInRound = 0;
         }
+        gi.BallKilledThisRound = false;
         gi.BallKilledByBorderThisRound = false;
         gi.RoundOver = false;
         gi.RoundInProgress = false;
@@ -158,23 +158,24 @@ public class CDefaultGamemode : MonoBehaviour {
     }
 
     private bool IsRoundOver() {
+        if (gi.BallKilledThisRound == true && GameObject.FindGameObjectsWithTag("PlayerBall").Length <= 0) {
+            gi.RoundOver = true;
+        }
         return gi.RoundOver;
     }
 
-    public void CheckRoundOver(CBall ball, bool killedByBorder) {
+    public void BallDestroyed(CBall ball, bool killedByBorder) {
         if (killedByBorder && IsFirstBallToBeKilledByBorder()) {
-            GameInfo.SpawnPoint = new Vector2(ball.transform.position.x, CGameInfo.SPAWN_POINT_Y);
+            gi.SpawnPoint = new Vector2(ball.transform.position.x, CGameInfo.SPAWN_POINT_Y);
         }
-        if (GameObject.FindGameObjectsWithTag("PlayerBall").Length - 1 == 0) {
-            gi.RoundOver = true;
-        }
+        gi.BallKilledThisRound = true;
     }
 
     private bool IsFirstBallToBeKilledByBorder() {
-        if (GameInfo.BallKilledByBorderThisRound) {
+        if (gi.BallKilledByBorderThisRound) {
             return false;
         }
-        GameInfo.BallKilledByBorderThisRound = true;
+        gi.BallKilledByBorderThisRound = true;
         return true;
     }
 
