@@ -115,6 +115,16 @@ public class CGameInfo {
         }
     }
 
+    private bool isInFastMode;
+    public bool IsInFastMode {
+        set {
+            isInFastMode = value;
+        }
+        get {
+            return isInFastMode;
+        }
+    }
+
     [NonSerialized]
     private CSpawnableObject[][] field;
     public CSpawnableObject[][] Field {
