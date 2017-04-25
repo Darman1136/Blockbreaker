@@ -83,8 +83,8 @@ public class CDefaultGamemode : MonoBehaviour {
     }
 
     void OnDestroy() {
-        if (!IsGameOver()) {
-            Save();
+        if (!IsGameOver() && /*temporary to avoid corrupted save files*/!gi.RoundInProgress) {
+                Save();
         } else {
             DestroyAllRemainingSpawnedObjects();
         }
