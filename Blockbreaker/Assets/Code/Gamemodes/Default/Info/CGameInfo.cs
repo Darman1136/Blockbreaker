@@ -66,7 +66,7 @@ public class CGameInfo {
         }
     }
 
-    public static float SPAWN_POINT_Y = 0.35f;
+    public static float SPAWN_POINT_Y = 0.15f;
     private static float MIN_SPAWN_POINT_X = -2.5f;
     private static float MAX_SPAWN_POINT_X = 2.5f;
     private float spawnPointX = 0f;
