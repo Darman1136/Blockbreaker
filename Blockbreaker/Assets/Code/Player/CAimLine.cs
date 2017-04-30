@@ -58,8 +58,8 @@ public class CAimLine : MonoBehaviour {
     }
 
     void Update() {
-        if (!gamemode.GameInfo.GameOver && !gamemode.GameInfo.RoundInProgress) {
-            Vector3 mousePosition = Input.mousePosition;
+        Vector3 mousePosition = Input.mousePosition;
+        if (mousePosition != null && !gamemode.GameInfo.GameOver && !gamemode.GameInfo.RoundInProgress) {
             mousePosition.z = 8.3f;
             Vector3 endPointPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             endPointPosition.z = -0.001f;

@@ -56,6 +56,5 @@ public class CTimedSpawner : MonoBehaviour {
 
     private void resetTimer() {
         currentDelay = MAX_DELAY + currentDelay;
-
     }
 }

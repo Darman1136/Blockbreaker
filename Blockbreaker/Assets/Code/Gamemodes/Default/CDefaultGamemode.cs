@@ -17,6 +17,7 @@ public class CDefaultGamemode : MonoBehaviour {
     private CUIRound textRound;
     private CBlockSpawner bs;
     private CGameInfo gi;
+    private GameObject startPointIndicator;
     public CGameInfo GameInfo {
         get {
             return gi;
@@ -52,7 +53,9 @@ public class CDefaultGamemode : MonoBehaviour {
         canvasGameOver = GameObject.Find("CanvasGameOver").GetComponent<Canvas>();
         textScore = GameObject.Find("TextScoreValue").GetComponent<CUIScore>();
         textRound = GameObject.Find("TextRoundValue").GetComponent<CUIRound>();
+        startPointIndicator = GameObject.Find("StartPointIndicator");
         bs = GetComponent<CBlockSpawner>();
+
     }
 
     private void Initialize() {
@@ -69,6 +72,7 @@ public class CDefaultGamemode : MonoBehaviour {
         }
         textScore.UpdateScoreText(pi.Points);
         textRound.UpdateRoundText(gi.Round);
+        startPointIndicator.transform.position = gi.SpawnPoint;
     }
 
     void Update() {
@@ -106,6 +110,8 @@ public class CDefaultGamemode : MonoBehaviour {
         gi.BallKilledByBorderThisRound = false;
         gi.RoundOver = false;
         gi.RoundInProgress = false;
+
+        startPointIndicator.transform.position = gi.SpawnPoint;
     }
 
     private void MoveObjectsOnScreen() {
