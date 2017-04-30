@@ -12,6 +12,7 @@ public class CDefaultGamemode : MonoBehaviour {
     public static CDefaultGamemode GAMEMODE;
     private String SAVE_FILE_LOCATION;
 
+    private Canvas canvasGameSpeed;
     private Canvas canvasGameOver;
     private CUIScore textScore;
     private CUIRound textRound;
@@ -53,6 +54,7 @@ public class CDefaultGamemode : MonoBehaviour {
         canvasGameOver = GameObject.Find("CanvasGameOver").GetComponent<Canvas>();
         textScore = GameObject.Find("TextScoreValue").GetComponent<CUIScore>();
         textRound = GameObject.Find("TextRoundValue").GetComponent<CUIRound>();
+        canvasGameSpeed = GameObject.Find("CanvasGameSpeed").GetComponent<Canvas>();
         startPointIndicator = GameObject.Find("StartPointIndicator");
         bs = GetComponent<CBlockSpawner>();
 
@@ -157,6 +159,7 @@ public class CDefaultGamemode : MonoBehaviour {
 
     private void GameOver() {
         canvasGameOver.enabled = true;
+        canvasGameSpeed.enabled = false;
 
         if (File.Exists(SAVE_FILE_LOCATION)) {
             File.Delete(SAVE_FILE_LOCATION);
