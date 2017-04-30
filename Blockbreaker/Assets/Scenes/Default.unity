@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 85706590}
   - component: {fileID: 85706589}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: PanelBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2043,6 +2043,7 @@ GameObject:
   - component: {fileID: 1708944585}
   - component: {fileID: 1708944584}
   - component: {fileID: 1708944583}
+  - component: {fileID: 1708944588}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -2118,6 +2119,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1708944588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1708944582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70e1584c3b0fe6045ab0269953733733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orthographicSize: 5
+  aspect: 0.6666667
 --- !u!1 &1759205745
 GameObject:
   m_ObjectHideFlags: 0
