@@ -7,9 +7,9 @@ using UnityEngine;
 public class CBlockSpawner : MonoBehaviour {
     private CDefaultGamemode gamemode;
 
-    private static float FIRST_SPAWNPOINT_Y = 5.15f;
-    private static float FIRST_SPAWNPOINT_X = -2.25f;
-    private static float SPACING_TO_NEXT_SPAWNPOINT = .75f;
+    private static float FIRST_SPAWNPOINT_Y = 6.08f;
+    private static float FIRST_SPAWNPOINT_X = -2.8f;
+    private static float SPACING_TO_NEXT_SPAWNPOINT = .93f;
 
     public CBlock BlockPrefab;
     public CPowerUp PUBouncePrefab;
