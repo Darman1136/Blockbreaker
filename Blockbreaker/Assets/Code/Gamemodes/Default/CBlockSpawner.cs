@@ -7,9 +7,9 @@ using UnityEngine;
 public class CBlockSpawner : MonoBehaviour {
     private CDefaultGamemode gamemode;
 
-    private static float FIRST_SPAWNPOINT_Y = 6.08f;
-    private static float FIRST_SPAWNPOINT_X = -2.8f;
-    private static float SPACING_TO_NEXT_SPAWNPOINT = .93f;
+    private static float FIRST_SPAWNPOINT_Y = 7f;
+    private static float FIRST_SPAWNPOINT_X = -2.3f;
+    private static float SPACING_TO_NEXT_SPAWNPOINT = .92f;
 
     public CBlock BlockPrefab;
     public CPowerUp PUBouncePrefab;
@@ -26,7 +26,7 @@ public class CBlockSpawner : MonoBehaviour {
     }
 
     public CSpawnableObject[] SpawnNextRound(int round) {
-        CSpawnableObject[] newObjects = new CSpawnableObject[gamemode.GameInfo.FieldHeight];
+        CSpawnableObject[] newObjects = new CSpawnableObject[gamemode.GameInfo.FieldWidth];
 
         SpawnNewBallPU(newObjects);
 

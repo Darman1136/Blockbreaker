@@ -67,8 +67,8 @@ public class CGameInfo {
     }
 
     public static float SPAWN_POINT_Y = 0.15f;
-    private static float MIN_SPAWN_POINT_X = -2.5f;
-    private static float MAX_SPAWN_POINT_X = 2.5f;
+    private static float MIN_SPAWN_POINT_X = -2.7f;
+    private static float MAX_SPAWN_POINT_X = 2.7f;
     private float spawnPointX = 0f;
     public Vector2 SpawnPoint {
         set {
@@ -85,7 +85,7 @@ public class CGameInfo {
         }
     }
 
-    private int fieldHeight = 7;
+    private int fieldHeight = 8;
     public int FieldHeight {
         set {
             fieldHeight = value;
@@ -95,7 +95,7 @@ public class CGameInfo {
         }
     }
 
-    private int fieldWidth = 7;
+    private int fieldWidth = 6;
     public int FieldWidth {
         set {
             fieldWidth = value;
