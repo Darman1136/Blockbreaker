@@ -81,7 +81,7 @@ public class CBlockSpawner : MonoBehaviour {
 
     private void CheckIfObjectsSpawned(CSpawnableObject[] newObjects, int health) {
         foreach (CSpawnableObject go in newObjects) {
-            if (go != null && !go.tag.Equals("PowerUp")) {
+            if (go != null && !go.CompareTag("PowerUp")) {
                 return;
             }
         }

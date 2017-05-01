@@ -8,7 +8,7 @@ public class CPUKillBall : CPowerUp {
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
-        if (coll.gameObject.tag.Equals("PlayerBall")) {
+        if (coll.gameObject.CompareTag("PlayerBall")) {
             DestoryAtEndOfRound = true;
             CBall ball = coll.gameObject.GetComponent<CBall>();
             ball.KillBall(false);

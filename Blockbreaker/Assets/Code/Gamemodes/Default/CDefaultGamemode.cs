@@ -146,9 +146,9 @@ public class CDefaultGamemode : MonoBehaviour {
         if (gi.Field[gi.Field.Length - 1] != null) {
             foreach (CSpawnableObject go in gi.Field[gi.Field.Length - 1]) {
                 if (go != null) {
-                    if (go.tag.Equals("Box")) {
+                    if (go.CompareTag("Box")) {
                         gi.GameOver = true;
-                    } else if (go.tag.Equals("PowerUp")) {
+                    } else if (go.CompareTag("PowerUp")) {
                         go.GetComponent<CPowerUp>().DestoryAtEndOfRound = true;
                     }
                 }
@@ -194,7 +194,7 @@ public class CDefaultGamemode : MonoBehaviour {
                 for (int index = 0; index < gos.Length; index++) {
                     CSpawnableObject go = gos[index];
                     if (go != null) {
-                        if (go.tag.Equals("PowerUp")) {
+                        if (go.CompareTag("PowerUp")) {
                             CPowerUp up = go.GetComponent<CPowerUp>();
                             if (up.DestoryAtEndOfRound) {
                                 gos[index] = null;

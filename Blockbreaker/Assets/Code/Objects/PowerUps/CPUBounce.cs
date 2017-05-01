@@ -10,8 +10,7 @@ public class CPUBounce : CPowerUp {
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
-        string tag = collision.gameObject.tag;
-        if (tag.Equals("PlayerBall")) {
+        if (collision.gameObject.CompareTag("PlayerBall")) {
             CBall ball = collision.gameObject.GetComponent<CBall>();
             ball.Bounce = true;
             ball.GetComponent<SpriteRenderer>().color = Color.cyan;

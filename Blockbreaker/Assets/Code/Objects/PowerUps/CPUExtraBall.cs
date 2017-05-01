@@ -11,8 +11,7 @@ public class CPUExtraBall : CPowerUp {
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
-        string tag = collision.gameObject.tag;
-        if (tag.Equals("PlayerBall")) {
+        if (collision.gameObject.CompareTag("PlayerBall")) {
             CBall ball = collision.gameObject.GetComponent<CBall>();
             if (!ball.Duplicate) {
                 float angle = direction[UnityEngine.Random.Range(0, 2)] * 45;

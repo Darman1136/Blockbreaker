@@ -74,8 +74,7 @@ public class CBall : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D coll) {
-        string tag = coll.gameObject.tag;
-        if (tag.Equals("Box")) {
+        if (coll.gameObject.CompareTag("Box")) {
             watchdog.RemovePossibleStuckBall(this);
             coll.gameObject.SendMessage("Hit", 1);
         }

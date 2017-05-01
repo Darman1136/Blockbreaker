@@ -11,8 +11,7 @@ public class CPUNewBall : CPowerUp {
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
-        string tag = collision.gameObject.tag;
-        if (tag.Equals("PlayerBall")) {
+        if (collision.gameObject.CompareTag("PlayerBall")) {
             gamemode.PlayerInfo.Balls = ++gamemode.PlayerInfo.Balls;
             Destroy(this.gameObject);
         }
